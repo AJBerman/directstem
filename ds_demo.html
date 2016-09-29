@@ -1,13 +1,33 @@
 <html>
 	<head>
-		<link rel="stylesheet" href="./resources/css/joint.min.css"></link>
+
 		<script src="./resources/js/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
 		<script src="./resources/js/lodash.min.js"></script>
 		<script src="./resources/js/backbone-min.js"></script>
+		<script src="./resources/js/joint.min.js"></script>
+		
+		<!-- css for jquery-ui/jointjs -->
+		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" href="./resources/css/joint.min.css"></link>
+		
+		<!-- custom stylsesheet -->
+		<link rel="stylesheet" href="./resources/css/ds_style.css"></link>
+	
 	</head>
 	<body>
-		<div id="paper" class="paper">
+	
+		<div class="container">
+			<!-- added placeholder images for services -->
+			<img class="item" id="img1" src="./resources/images/Khaki_Solid.svg.png" />
+			<img class="item" id="img2" src="./resources/images/Mahogany_Solid.svg.png" />
+			<img class="item" id="img3" src="./resources/images/Yellow_Solid.svg.png" />
+			<img class="item" id="img4" src="./resources/images/Khaki_Solid.svg.png" />
+			<img class="item" id="img5" src="./resources/images/Mahogany_Solid.svg.png" />
+			<img class="item" id="img6" src="./resources/images/Yellow_Solid.svg.png" />
 		</div>
+		<div id="paper" class="paper"></div>
+		<!-- commented out old way of adding new nodes
 		<select id="add_select">
 			<option value="WeatherByZip">WeatherByZip</option>
 			<option value="WeatherByCity">WeatherByCity</option>
@@ -17,7 +37,9 @@
 			<option value="calc_div">CalculatorDivide</option>
 		</select>
 		<button type="button" id="add_butt">Add</button>
-		<script src="./resources/js/joint.min.js"></script>
+		 -->
+		
 		<script src="./resources/js/ds_demo.js"></script>
+		
 	</body>
 </html>
