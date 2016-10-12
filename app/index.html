@@ -2,7 +2,7 @@
 <html lang="en" ng-app="WebserviceApp">
 <head>
     <meta charset="UTF-8">
-    <title>Hello World</title>
+    <title>Web Service</title>
 
     <!-- =============== Bootstrap =============== -->
     <link rel="stylesheet" href="styles/vendor/bootstrap.css">
@@ -10,14 +10,29 @@
 
     <!-- =============== AngularJS =============== -->
     <script src="scripts/vendor/angular.js"></script>
-    <script src="scripts/app.js"></script>
+    <script src="app.js"></script>
+
+    <!-- ng-modules -->
+    <script src="scripts/vendor/angular-route.js"></script>
+
     <!-- controllers -->
-    <script src="scripts/controllers/HelloWorld.Controllers.js"></script>
+    <script src="features/navbar/NavBarController.js"></script>
+    <script src="features/navbar/NavBarDirective.js"></script>
 
 </head>
 
-<body class="container" ng-controller="HelloWorldCtrl">
-    <h1>Message: {{ message }}</h1>
+<body>
+    <header>
+        <nav-bar></nav-bar>
+    </header>
+
+    <section>
+        <ng-view></ng-view>
+    </section>
+
+    <footer>
+        <p>Footer</p>
+    </footer>
 </body>
 
 </html>

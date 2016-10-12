@@ -3,3 +3,4 @@
 
 # ignore intellij idea settings
 /.idea
+/direct_stem_webservice.iml

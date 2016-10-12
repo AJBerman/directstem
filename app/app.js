@@ -1,0 +1,41 @@
+/**
+ * Created by shay on 10/11/16.
+ */
+
+// the root module
+angular.module("WebserviceApp", [
+        "ngRoute",
+        "WebserviceApp.Directives", "WebserviceApp.Controllers"
+    ]
+);
+
+
+// set up routing
+angular.module("WebserviceApp")
+    .config(function ($routeProvider) {
+
+
+        $routeProvider.when("/project", {
+            templateUrl: "/views/project.html"
+        });
+
+        $routeProvider.when("/about", {
+            templateUrl: "/views/about.html"
+        });
+
+        $routeProvider.when("/contact", {
+            templateUrl: "/views/contact.html"
+        });
+
+        $routeProvider.otherwise({
+            templateUrl: "/views/home.html"
+        });
+
+
+    });
+
+// controllers
+angular.module("WebserviceApp.Controllers", []);
+
+// directives
+angular.module("WebserviceApp.Directives", []);

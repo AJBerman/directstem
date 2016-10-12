@@ -12,5 +12,8 @@
   "devDependencies": {
     "angular": "^1.5.8",
     "bootstrap": "^3.3.7"
+  },
+  "dependencies": {
+    "express": "^4.14.0"
   }
 }
