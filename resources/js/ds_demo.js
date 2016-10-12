@@ -33,8 +33,24 @@ var source = new joint.shapes.devs.Coupled({
     inPorts : ['In'],
     outPorts: ['Out'],
     attrs: {
-        '.label'            : { text: 'Source'},
-        rect                : { fill: '#d9534f' },
+        '.label'            : { text: 'Source', 'data-toggle': 'popover', title: 'Modify Me!', 'data-content': '<form action="action_page.php"> \
+                                                                                                                  Service:<br> \
+                                                                                                                  <select id="add_select"> \
+                                                                                                                      <option value="WeatherByZip">WeatherByZip</option> \
+                                                                                                                      <option value="WeatherByCity">WeatherByCity</option> \
+                                                                                                                      <option value="calc_add">CalculatorAdd</option> \
+                                                                                                                      <option value="calc_sub">CalculatorSubtract</option> \
+                                                                                                                      <option value="calc_mul">CalculatorMultiply</option> \
+                                                                                                                      <option value="calc_div">CalculatorDivide</option> \
+                                                                                                                  </select><br> \
+                                                                                                                  Endpoint:<br> \
+                                                                                                                  <select id="add_select"> \
+                                                                                                                      <option value="foo">Foo</option> \
+                                                                                                                      <option value="bar">Bar</option> \
+                                                                                                                  </select><br> \
+                                                                                                                  <input type="submit" value="Submit"> \
+                                                                                                                  </form> ', 'data-html' : 'true', 'data-container' : 'body' },
+        rect                : { fill: '#d9534f'},
 
         '.inPorts circle'   : { fill: '#16A085', magnet: 'passive', type: 'input',r:'10' },
         '.outPorts circle'  : { fill: '#E74C3C', type: 'output',r:'10' }
@@ -127,7 +143,9 @@ $(document).ready(function() {
 		helper: 'clone',
 		zIndex: 10000 // was having issues with paper being over draggable item
 	});
-
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover();
+    });
 	$("#paper").droppable({
 		
 		// creates a node on the mouse up,based on what image id was dropped
