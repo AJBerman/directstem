@@ -50,3 +50,7 @@ active-widget.navbar-text {
     margin-right: 10px;
 }
 
+
+section {
+    min-height: 40em;
+}
