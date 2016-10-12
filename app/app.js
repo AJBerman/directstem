@@ -5,7 +5,10 @@
 // the root module
 angular.module("WebserviceApp", [
         "ngRoute",
-        "WebserviceApp.Directives", "WebserviceApp.Controllers"
+        "WebserviceApp.Directives",
+        "WebserviceApp.Controllers",
+        "WebserviceApp.Providers",
+        "WebserviceApp.Filters",
     ]
 );
 
@@ -29,12 +32,11 @@ angular.module("WebserviceApp")
 
         $routeProvider.when("/contact#/carousel-example-generic-2", {
             templateUrl: "/views/contact.html"
-        })
+        });
+
         $routeProvider.otherwise({
             templateUrl: "/views/project.html"
         });
-
-
     });
 
 // controllers
@@ -42,3 +44,9 @@ angular.module("WebserviceApp.Controllers", []);
 
 // directives
 angular.module("WebserviceApp.Directives", []);
+
+// providers
+angular.module("WebserviceApp.Providers", []);
+
+// filters
+angular.module("WebserviceApp.Filters", []);
