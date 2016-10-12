@@ -33,23 +33,30 @@ var source = new joint.shapes.devs.Coupled({
     inPorts : ['In'],
     outPorts: ['Out'],
     attrs: {
-        '.label'            : { text: 'Source', 'data-toggle': 'popover', title: 'Modify Me!', 'data-content': '<form action="action_page.php"> \
-                                                                                                                  Service:<br> \
-                                                                                                                  <select id="add_select"> \
-                                                                                                                      <option value="WeatherByZip">WeatherByZip</option> \
-                                                                                                                      <option value="WeatherByCity">WeatherByCity</option> \
-                                                                                                                      <option value="calc_add">CalculatorAdd</option> \
-                                                                                                                      <option value="calc_sub">CalculatorSubtract</option> \
-                                                                                                                      <option value="calc_mul">CalculatorMultiply</option> \
-                                                                                                                      <option value="calc_div">CalculatorDivide</option> \
-                                                                                                                  </select><br> \
-                                                                                                                  Endpoint:<br> \
-                                                                                                                  <select id="add_select"> \
-                                                                                                                      <option value="foo">Foo</option> \
-                                                                                                                      <option value="bar">Bar</option> \
-                                                                                                                  </select><br> \
-                                                                                                                  <input type="submit" value="Submit"> \
-                                                                                                                  </form> ', 'data-html' : 'true', 'data-container' : 'body' },
+        '.label'            : { text: 'Source', 'data-toggle': 'popover', title: 'Modify Me!', 
+                                'data-content': 
+                                '<form action="action_page.php"> \
+                                  Type:<br> \
+                                  <select name="type"> \
+                                    <option value="Service">Service</option> \
+                                    <option value="Graph">Graph</option> \
+                                  </select><br> \
+                                  Service:<br> \
+                                  <select name="service"> \
+                                    <option value="WeatherByZip">WeatherByZip</option> \
+                                    <option value="WeatherByCity">WeatherByCity</option> \
+                                    <option value="calc_add">CalculatorAdd</option> \
+                                    <option value="calc_sub">CalculatorSubtract</option> \
+                                    <option value="calc_mul">CalculatorMultiply</option> \
+                                    <option value="calc_div">CalculatorDivide</option> \
+                                  </select><br> \
+                                  Endpoint:<br> \
+                                  <select name="serviceEndpoint"> \
+                                    <option value="foo">Foo</option> \
+                                    <option value="bar">Bar</option> \
+                                  </select><br> \
+                                  <input type="submit" value="Save"><button>Edit...</button><button>Delete</button></form>',
+                                'data-html' : 'true', 'data-container' : 'body' },
         rect                : { fill: '#d9534f'},
 
         '.inPorts circle'   : { fill: '#16A085', magnet: 'passive', type: 'input',r:'10' },
