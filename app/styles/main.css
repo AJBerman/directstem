@@ -2,7 +2,6 @@
  * Sidebar
  */
 
-
 @media (min-width: 768px) {
     .sidebar {
         display: block;
@@ -33,10 +32,21 @@
     background-color: #428bca;
 }
 
-
 /* used add spacing between an element and the one above it*/
 .margin-top {
     margin-top: 10em;
 }
 
+/**
+* Active Project Widget
+*/
+active-widget. nav-bar {
+    float: right !important;
+    margin-right: 5px;
+}
+
+active-widget.navbar-text {
+
+    margin-right: 10px;
+}
 
