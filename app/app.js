@@ -27,6 +27,9 @@ angular.module("WebserviceApp")
             templateUrl: "/views/contact.html"
         });
 
+        $routeProvider.when("/contact#/carousel-example-generic-2", {
+            templateUrl: "/views/contact.html"
+        })
         $routeProvider.otherwise({
             templateUrl: "/views/project.html"
         });
