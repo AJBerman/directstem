@@ -28,7 +28,7 @@ angular.module("WebserviceApp")
         });
 
         $routeProvider.otherwise({
-            templateUrl: "/views/home.html"
+            templateUrl: "/views/project.html"
         });
 
 
