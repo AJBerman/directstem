@@ -40,9 +40,9 @@ angular.module("WebserviceApp.Providers")
                 activeProject = null;
             },
 
-            removeProject: function (id) {
+            removeProject: function (project) {
                 for (var i = 0; i < projects.length; i++) {
-                    if (projects[i].id === id) {
+                    if (projects[i].id === project.id) {
                         projects.splice(i, 1);
                         break;
                     }

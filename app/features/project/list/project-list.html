@@ -82,7 +82,6 @@
                 </div>
                 <div class="modal-body">
                     <!-- project form to edit -->
-                    <!-- TODO: create a project form directive -->
                     <project-form project="projectToBeEdited"></project-form>
                 </div>
                 <div class="modal-footer">
@@ -91,9 +90,10 @@
                     </button>
                     <!-- delete current project button -->
                     <button type="button" data-dismiss="modal"
-                            ng-click="delete()" class="btn btn-danger">
+                            ng-click="deleteProject(projectToBeEdited)" class="btn btn-danger">
                         Delete
                     </button>
+
                 </div>
             </div>
         </div>

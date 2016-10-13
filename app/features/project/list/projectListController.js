@@ -50,8 +50,8 @@ angular.module("WebserviceApp.Controllers")
                 $scope.projectToBeEdited = project;
             };
 
-            $scope.deleteProject = function () {
-                ProjectFactory.removeProject(ProjectFactory.getActiveProject().id);
+            $scope.deleteProject = function (project) {
+                ProjectFactory.removeProject(project);
                 $scope.projects = ProjectFactory.getProjects();
             };
 
