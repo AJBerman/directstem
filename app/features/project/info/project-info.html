@@ -1,0 +1,46 @@
+<!-- display the project overview -->
+<div class="container" ng-controller="SidebarCtrl"
+     ng-show="getActiveProject().id">
+
+    <div class="row">
+
+        <!-- SIDE BAR -->
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar" ng-repeat="option in options">
+                <li ng-click="selectOption(option)"
+                    ng-class="getOptionClass(option)">
+                    <a>{{option.name}}</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- PROJECT INFO -->
+        <div class="col-sm-7">
+            <dl class="dl-horizontal">
+                <dt>ID</dt>
+                <dd>{{activeProject.id}}</dd>
+
+                <dt>Project</dt>
+                <dd>{{activeProject.name}}</dd>
+
+                <dt>Author</dt>
+                <dd>{{activeProject.author}}</dd>
+
+                <dt>Description</dt>
+                <dd>{{activeProject.description}}</dd>
+                <hr/>
+            </dl>
+            <hr/>
+
+        </div>
+    </div>
+</div>
+
+<!-- show error if theere are no project selected -->
+<div class="container" ng-controller="SidebarCtrl"
+     ng-hide="getActiveProject().id">
+
+    <div class="alert alert-danger col-sm-6" role="alert">
+        <p>There is nothing to see here. Please select a project first!</p>
+    </div>
+</div>
