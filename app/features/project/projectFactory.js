@@ -27,8 +27,12 @@ angular.module("WebserviceApp.Providers")
         var projects = [
             new Project(counter++, "adam", "foobar", "my description #1"),
             new Project(counter++, "james", "hello_world", "my description #2"),
+            new Project(counter++, "james", "python_is_cool", "my description #2"),
             new Project(counter++, "luis", "fizz buzz", "my description #3"),
+            new Project(counter++, "luis", "A* search", "my description #3"),
+            new Project(counter++, "luis", "Dijkstra Search", "my description #3"),
             new Project(counter++, "nelson", "depth first search", "my description #4"),
+            new Project(counter++, "nelson", "breadth first search", "my description #4"),
             new Project(counter++, "shay", "IDE", "my description #5")
         ];
 
@@ -37,7 +41,7 @@ angular.module("WebserviceApp.Providers")
         return {
             addProject: function (project) {
                 projects.push(project);
-                activeProject = null;
+                activeProject = {};
             },
 
             removeProject: function (project) {

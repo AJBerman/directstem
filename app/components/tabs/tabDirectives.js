@@ -71,7 +71,7 @@ angular.module("WebserviceApp.Directives")
             restrict: "E",
             transclude: true,
             scope: {
-                title: "@"
+                title: "@", length: "="
             },
 
             link: function (scope, element, attrs, TabsCtrl) {

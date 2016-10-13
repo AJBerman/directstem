@@ -35,7 +35,15 @@ angular.module("WebserviceApp.Controllers")
                     project.author == selectedAuthor;
             };
 
+            $scope.getAuthorCount = function(author) {
+                var count = 0;
+                angular.forEach($scope.projects, function(project) {
+                    if(project.author == author)
+                        count++;
+                });
 
+                return count;
+            };
             /* =============== Project Panel functions =============== */
             $scope.getPanelClass = function (project) {
                 return ProjectFactory.getActiveProject().id == project.id

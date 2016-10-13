@@ -1,13 +1,15 @@
 <div>
-   <carosuel></carosuel>
+    <carosuel></carosuel>
 </div>
 
 <section class="container">
     <tabs>
         <!-- display all the projects -->
-        <pane title="Projects">
-            <project-list></project-list>
-        </pane>
+        <div ng-controller="ProjectListCtrl">
+            <pane title="Projects" length="projects.length">
+                <project-list></project-list>
+            </pane>
+        </div>
 
         <!-- display the current active project -->
         <pane title="Current Project">
@@ -19,7 +21,7 @@
 
         <!-- add a new project -->
         <pane title="Add New Projects">
-            <project-form project="" ></project-form>
+            <project-form project=""></project-form>
         </pane>
 
     </tabs>
