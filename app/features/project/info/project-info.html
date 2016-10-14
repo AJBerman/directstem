@@ -6,10 +6,10 @@
 
         <!-- SIDE BAR -->
         <div class="col-sm-3 col-md-2 sidebar">
-            <ul class="nav nav-sidebar" ng-repeat="option in options">
+            <ul class="nav nav-sidebar" ng-repeat="option in sidebarOptions">
                 <li ng-click="selectOption(option)"
                     ng-class="getOptionClass(option)">
-                    <a>{{option.name}}</a>
+                    <a ng-href="{{ option.url }}">{{ option.name }}</a>
                 </li>
             </ul>
         </div>
@@ -31,7 +31,7 @@
                 <hr/>
             </dl>
             <hr/>
-
+            <div ng-transclude=""></div>
         </div>
     </div>
 </div>

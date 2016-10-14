@@ -1,13 +1,19 @@
 <div class="container" ng-controller="GraphCtrl">
-    <div class="alert alert-danger col-sm-6" ng-hide="getActiveProject().id" role="alert">
+    <div class="alert alert-danger col-sm-6" ng-hide="getActiveProject().id"
+         role="alert">
         <span class="glyphicon glyphicon-exclamation-sign"
               aria-hidden="true"></span>
         <span class="sr-only">Error:</span>
-        No project selected. In order to view a graph, you need to select or create
+        No project selected. In order to view a graph, you need to select or
+        create
         a project!
     </div>
 
-    <div id="paper" ng-show="getActiveProject().id"></div>
+    <div ng-show="getActiveProject().id">
+        <project-info>
+            <div id="paper" ng-show="getActiveProject().id"></div>
+        </project-info>
+    </div>
 </div>
 
 

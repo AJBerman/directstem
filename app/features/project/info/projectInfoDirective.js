@@ -11,6 +11,7 @@ angular.module("WebserviceApp.Directives")
         return {
             restrict: "E",
             templateUrl: "features/project/info/project-info.html",
+            transclude: true,
             controller: function ($scope, ProjectFactory) {
 
                 $scope.activeProject = ProjectFactory.getActiveProject();

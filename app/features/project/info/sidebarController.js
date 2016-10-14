@@ -4,18 +4,13 @@
 
 angular.module("WebserviceApp.Controllers")
 
-    .controller("SidebarCtrl", function ($scope, activeClass) {
-        $scope.options = [
-            {name: "Overview", url: "components/data/fake.html"},
-            {name: "Reports", url: ""},
-            {name: "Analytic", url: ""},
-            {name: "History", url: ""}
-        ];
-
-        $scope.selectedOption = $scope.options[0];
+    .controller("SidebarCtrl", function ($scope, activeClass, SidebarFactory) {
+        $scope.sidebarOptions = SidebarFactory.getSideBarOptions();
+        $scope.selectedOption = SidebarFactory.getSelectedOption();
 
         $scope.selectOption = function (option) {
             $scope.selectedOption = option;
+            SidebarFactory.setOption(option);
         };
 
         $scope.getOptionClass = function (option) {
