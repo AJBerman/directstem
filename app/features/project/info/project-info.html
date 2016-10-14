@@ -31,6 +31,14 @@
                 <hr/>
             </dl>
             <hr/>
+
+            <!-- display user the option to load, save, create, run, new webservice project-->
+            <div class="container" ng-controller="SidebarCtrl"
+                 ng-show="getActiveProject().id">
+
+                <button-panel></button-panel>
+            </div>
+
             <div ng-transclude=""></div>
         </div>
     </div>
@@ -44,3 +52,4 @@
         <p>There is nothing to see here. Please select a project first!</p>
     </div>
 </div>
+

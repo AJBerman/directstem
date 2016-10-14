@@ -1,4 +1,6 @@
 <div class="container" ng-controller="GraphCtrl">
+
+    <!-- Display an error message if the user haven't select a project yet -->
     <div class="alert alert-danger col-sm-6" ng-hide="getActiveProject().id"
          role="alert">
         <span class="glyphicon glyphicon-exclamation-sign"
@@ -10,6 +12,7 @@
     </div>
 
     <div ng-show="getActiveProject().id">
+        <run-button run="Run Webservice" stop="Stop Webservice"></run-button>
         <project-info>
             <div id="paper" ng-show="getActiveProject().id"></div>
         </project-info>
