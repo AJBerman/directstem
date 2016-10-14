@@ -12,6 +12,7 @@ angular.module("WebserviceApp.Controllers")
     .controller("NavBarCtrl", function ($scope, activeClass) {
         $scope.options = [
             {name: "Project", url: "#project"},
+            {name: "Graph", url: "#graph"},
             {name: "About", url: "#about"},
             {name: "Contact", url: "#contact"},
         ];
