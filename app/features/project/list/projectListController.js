@@ -6,7 +6,7 @@ angular.module("WebserviceApp.Controllers")
 
     .constant("PROJECT_PER_PAGE", 3)
 
-    .constant("ACTIVE_PANEL_CSS", "panel-danger")
+    .constant("ACTIVE_PANEL_CSS", "panel-success")
 
     .controller("ProjectListCtrl",
         function ($scope, $filter, ProjectFactory, ACTIVE_BTN_CSS, PROJECT_PER_PAGE,
