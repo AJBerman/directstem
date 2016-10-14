@@ -17,13 +17,13 @@ angular.module("WebserviceApp.Controllers")
             {name: "Contact", url: "#contact"},
         ];
 
-        var selectedOption = null;
+        var selectedOption = $scope.options[0];
 
         $scope.selectOption = function (option) {
             selectedOption = option;
         };
 
         $scope.getOptionClass = function (option) {
-            return selectedOption == option ? activeClass : ""
+            return selectedOption.name == option.name ? activeClass : ""
         };
     })

@@ -9,8 +9,8 @@
             <!-- container for link tabs and active project widget -->
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav" ng-repeat="option in options">
-                    <li ng-click="selectOption(option.name)"
-                        ng-class="getOptionClass(option.name)">
+                    <li ng-click="selectOption(option)"
+                        ng-class="getOptionClass(option)">
                         <a ng-href="{{option.url}}">{{option.name}}</a>
                     </li>
                 </ul>
