@@ -1,4 +1,4 @@
-<div class="" ng-controller="GraphCtrl">
+<div class="" ng-controller="InfoSummaryCtrl">
 
     <!-- Display an error message if the user haven't select a project yet -->
     <div class="container alert alert-danger col-sm-offset-3 col-sm-6 text-center"
@@ -12,7 +12,32 @@
     </div>
 
     <div ng-show="getActiveProject().id">
-        <run-button run="Run Webservice" stop="Stop Webservice"></run-button>
+        <div class="container lead well">
+            <dl class="dl-horizontal">
+                <dt>ID</dt>
+                <dd>{{activeProject.id}}</dd>
+
+                <dt>Project Name</dt>
+                <dd>{{activeProject.name}}</dd>
+
+                <dt></dt>
+                <dd>
+                    <div class="btn-group" role="group" aria-label="...">
+                        <run-button run="Run Webservice"
+                                    stop="Stop Webservice"></run-button>
+                        <button type="button" class="btn btn-default">
+                            Save &nbsp;
+                            <i class="fa fa-floppy-o fa-2x" aria-hidden="true"></i>
+                        </button>
+
+                        <button type="button" class="btn btn-default">
+                            Load &nbsp;
+                            <i class="fa fa-eraser fa-2x" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </dd>
+            </dl>
+        </div>
         <div id="paper" ng-show="getActiveProject().id"></div>
     </div>
 

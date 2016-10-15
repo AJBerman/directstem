@@ -6,7 +6,7 @@ angular.module("WebserviceApp.Directives")
 
     .constant("SPIN_ICON", "fa-spin")
 
-    .constant("SUBMIT_BTN_CSS", "btn-primary")
+    .constant("DEFAULT_BTN_CSS", "btn-default")
 
     .constant("CANCEL_BTN_CSS", "btn-danger")
     /**
@@ -20,7 +20,7 @@ angular.module("WebserviceApp.Directives")
             restrict: "E",
             templateUrl: "components/buttons/run/run-button.html",
             scope: {run: "@", stop: "@"},
-            controller: function ($scope, SPIN_ICON, SUBMIT_BTN_CSS, CANCEL_BTN_CSS) {
+            controller: function ($scope, SPIN_ICON, DEFAULT_BTN_CSS, CANCEL_BTN_CSS) {
                 var toggle = false;
                 var text = null;
 
@@ -43,7 +43,7 @@ angular.module("WebserviceApp.Directives")
                 };
 
                 $scope.getBtnClass= function() {
-                    return toggle ? CANCEL_BTN_CSS : SUBMIT_BTN_CSS
+                    return toggle ? CANCEL_BTN_CSS :  DEFAULT_BTN_CSS;
                 }
             }
         }
