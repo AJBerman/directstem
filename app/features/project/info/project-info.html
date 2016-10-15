@@ -28,16 +28,24 @@
 
                 <dt>Description</dt>
                 <dd>{{activeProject.description}}</dd>
+
+                <!-- create or load a webservice graph gui project -->
+                <dt>Options</dt>
+                <dd>
+                    <div class="btn-group" role="group" aria-label="...">
+                        <button type="button" class="btn btn-default">
+                            New &nbsp;
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-default">
+                            Load &nbsp;
+                            <i class="fa fa-file" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </dd>
                 <hr/>
             </dl>
             <hr/>
-
-            <!-- display user the option to load, save, create, run, new webservice project-->
-            <div class="container" ng-controller="SidebarCtrl"
-                 ng-show="getActiveProject().id">
-
-                <button-panel></button-panel>
-            </div>
 
             <div ng-transclude=""></div>
         </div>

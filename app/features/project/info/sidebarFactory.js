@@ -10,9 +10,6 @@ angular.module("WebserviceApp.Providers")
             {name: "Reports", url: ""},
             {name: "Analytic", url: ""},
             {name: "History", url: ""},
-            {name: "Create Webservice", url: "#graph"},
-            // TODO: implement feature to load an existing project
-            {name: "Load Webservice", url: "#graph"}
         ];
 
         var selectedOption = sidebarOptions[0];
