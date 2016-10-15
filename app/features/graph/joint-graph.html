@@ -1,8 +1,8 @@
-<div class="container" ng-controller="GraphCtrl">
+<div class="" ng-controller="GraphCtrl">
 
     <!-- Display an error message if the user haven't select a project yet -->
-    <div class="alert alert-danger col-sm-6" ng-hide="getActiveProject().id"
-         role="alert">
+    <div class="container alert alert-danger col-sm-offset-3 col-sm-6 text-center"
+         ng-hide="getActiveProject().id" role="alert">
         <span class="glyphicon glyphicon-exclamation-sign"
               aria-hidden="true"></span>
         <span class="sr-only">Error:</span>
@@ -13,10 +13,9 @@
 
     <div ng-show="getActiveProject().id">
         <run-button run="Run Webservice" stop="Stop Webservice"></run-button>
-        <project-info>
-            <div id="paper" ng-show="getActiveProject().id"></div>
-        </project-info>
+        <div id="paper" ng-show="getActiveProject().id"></div>
     </div>
+
 </div>
 
 
@@ -25,7 +24,7 @@
 
     var paper = new joint.dia.Paper({
         el: $('#paper'),
-        width: 800,
+        width: 1200,
         height: 600,
         gridSize: 1,
         model: graph,

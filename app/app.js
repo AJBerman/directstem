@@ -31,7 +31,7 @@ angular.module("WebserviceApp")
         });
 
         $routeProvider.when("/graph", {
-            templateUrl: "/features/graph/example_1.html"
+            templateUrl: "/features/graph/joint-graph.html"
         });
 
         $routeProvider.otherwise({
