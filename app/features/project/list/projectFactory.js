@@ -20,7 +20,7 @@ function Project(id, author, name, description) {
  * singleton object allows other controllers to interact with the project data.
  * For example: adding and removing a project from our database or switching project
  */
-angular.module("WebserviceApp.Providers")
+angular.module("WebserviceApp.Services")
     .factory("ProjectFactory", function () {
         var counter = 1000;
 

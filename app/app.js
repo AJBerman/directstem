@@ -7,7 +7,7 @@ angular.module("WebserviceApp", [
         "ngRoute",
         "WebserviceApp.Directives",
         "WebserviceApp.Controllers",
-        "WebserviceApp.Providers",
+        "WebserviceApp.Services",
         "WebserviceApp.Filters",
     ]
 );
@@ -46,7 +46,7 @@ angular.module("WebserviceApp.Controllers", []);
 angular.module("WebserviceApp.Directives", []);
 
 // providers
-angular.module("WebserviceApp.Providers", []);
+angular.module("WebserviceApp.Services", []);
 
 // filters
 angular.module("WebserviceApp.Filters", []);

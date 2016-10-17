@@ -2,7 +2,7 @@
  * Created by shay on 10/13/16.
  */
 
-angular.module("WebserviceApp.Providers")
+angular.module("WebserviceApp.Services")
     .factory("SidebarFactory", function () {
 
         var sidebarOptions = [
