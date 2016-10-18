@@ -9,7 +9,7 @@
             <!-- container for link tabs and active project widget -->
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav" ng-repeat="option in options">
-                    <li ng-click="selectOption(option)"
+                    <li class="hvr-underline-from-center" ng-click="selectOption(option)"
                         ng-class="getOptionClass(option)">
                         <a ng-href="{{option.url}}">{{option.name}}</a>
                     </li>

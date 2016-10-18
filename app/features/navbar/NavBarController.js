@@ -16,14 +16,4 @@ angular.module("WebserviceApp.Controllers")
             {name: "About", url: "#about"},
             {name: "Contact", url: "#contact"},
         ];
-
-        var selectedOption = $scope.options[0];
-
-        $scope.selectOption = function (option) {
-            selectedOption = option;
-        };
-
-        $scope.getOptionClass = function (option) {
-            return selectedOption.name == option.name ? activeClass : ""
-        };
-    })
+    });
