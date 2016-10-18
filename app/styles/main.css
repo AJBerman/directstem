@@ -61,6 +61,5 @@ section {
 
 /* for the joint graph image items (the one where you drag down to create a node*/
 ._item {
-    width: 120px;
-    height: 40px;
+    margin: 0 .5em 0 .5em
 }
