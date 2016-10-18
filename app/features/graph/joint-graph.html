@@ -12,8 +12,13 @@
     </div>
 
     <div ng-show="getActiveProject().id">
-        <div class="container lead well">
+        <div class="container lead panel">
             <dl class="dl-horizontal">
+                <dt></dt>
+                <dd>
+
+                </dd>
+
                 <dt>ID:</dt>
                 <dd>{{activeProject.id}}</dd>
 
@@ -23,30 +28,22 @@
                 <dt>Options:</dt>
                 <dd>
                     <div class="btn-group" role="group" aria-label="...">
-                        <a class="btn btn-default hvr-overline-from-center"
+                        <a class="btn btn-default hvr-icon-back "
                            ng-href="#project">
                             Back &nbsp;
-                            <i class="fa fa-arrow-left fa-2x"
-                               aria-hidden="true"></i>
                         </a>
                         <button ng-click="resetGraph()" type="button"
-                                class="btn btn-default hvr-overline-from-center">
+                                class="btn btn-default hvr-icon-sink-away">
                             Reset &nbsp;
-                            <i class="fa fa-eraser fa-2x"
-                               aria-hidden="true"></i>
                         </button>
                         <button ng-click="saveGraph()" type="button"
-                                class="btn btn-default hvr-overline-from-center">
+                                class="btn btn-default hvr-icon-push">
                             Save &nbsp;
-                            <i class="fa fa-floppy-o fa-2x"
-                               aria-hidden="true"></i>
                         </button>
 
                         <button ng-click="loadGraph()" type="button"
-                                class="btn btn-default hvr-overline-from-center">
+                                class="btn btn-default hvr-icon-spin">
                             Load &nbsp;
-                            <i class="fa fa-refresh fa-2x"
-                               aria-hidden="true"></i>
                         </button>
                         <run-button run="Run Webservice"
                                     stop="Stop Webservice"></run-button>
