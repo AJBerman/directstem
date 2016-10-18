@@ -30,8 +30,8 @@
                     <div class="btn-group" role="group" aria-label="...">
                         <a class="btn btn-default hvr-icon-back "
                            ng-href="#project"
-                            data-trigger="hover" data-placement="bottom"
-                            title="Return to the project listings">
+                           data-trigger="hover" data-placement="bottom"
+                           title="Return to the project listings">
                             Back &nbsp;
                         </a>
                         <button ng-click="resetGraph()" type="button"
@@ -53,11 +53,17 @@
                                 title="Load the the graph previous saved state">
                             Load &nbsp;
                         </button>
-                        <run-button run="Run Webservice"
-                                    stop="Stop Webservice"
-                                    data-trigger="hover" data-placement="bottom"
-                                    title="Load the the graph previous saved state">
-                        </run-button>
+
+                        <!--run button with spinning cog effect -->
+                        <button data-trigger="hover" data-placement="bottom"
+                                class="btn" ng-class="getBtnClass()"
+                                title="Start the project"
+                                ng-click="toggleRunBtn(run,stop)">
+                            {{displayBtnText('Run Project')}}
+                            <i class="fa fa-cog fa-fw "
+                               ng-class="getIconClass()">
+                            </i>
+                        </button>
                     </div>
                 </dd>
             </dl>
