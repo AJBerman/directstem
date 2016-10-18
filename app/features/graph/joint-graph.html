@@ -29,24 +29,35 @@
                 <dd>
                     <div class="btn-group" role="group" aria-label="...">
                         <a class="btn btn-default hvr-icon-back "
-                           ng-href="#project">
+                           ng-href="#project"
+                            data-toggle="tooltip" data-placement="bottom"
+                            title="Return to the project listings">
                             Back &nbsp;
                         </a>
                         <button ng-click="resetGraph()" type="button"
-                                class="btn btn-default hvr-icon-sink-away">
+                                class="btn btn-default hvr-icon-sink-away"
+                                data-toggle="tooltip" data-placement="bottom"
+                                title="Clear the graph. Be careful!">
                             Reset &nbsp;
                         </button>
                         <button ng-click="saveGraph()" type="button"
-                                class="btn btn-default hvr-icon-push">
+                                class="btn btn-default hvr-icon-push"
+                                data-toggle="tooltip" data-placement="bottom"
+                                title="Save the current state of the graph for future used">
                             Save &nbsp;
                         </button>
 
                         <button ng-click="loadGraph()" type="button"
-                                class="btn btn-default hvr-icon-spin">
+                                class="btn btn-default hvr-icon-spin"
+                                data-toggle="tooltip" data-placement="bottom"
+                                title="Load the the graph previous saved state">
                             Load &nbsp;
                         </button>
                         <run-button run="Run Webservice"
-                                    stop="Stop Webservice"></run-button>
+                                    stop="Stop Webservice"
+                                    data-toggle="tooltip" data-placement="bottom"
+                                    title="Load the the graph previous saved state">
+                        </run-button>
                     </div>
                 </dd>
             </dl>
@@ -57,6 +68,10 @@
 
 
 <script>
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+
     /**
      * MAIN_GRAPH is an empty Graph object instantiated from the
      * joint_setup.js file
