@@ -14,15 +14,22 @@
     <div ng-show="getActiveProject().id">
         <div class="container lead well">
             <dl class="dl-horizontal">
-                <dt>ID</dt>
+                <dt>ID:</dt>
                 <dd>{{activeProject.id}}</dd>
 
-                <dt>Project Name</dt>
+                <dt>Project Name:</dt>
                 <dd>{{activeProject.name}}</dd>
 
-                <dt></dt>
+                <dt>Options:</dt>
                 <dd>
                     <div class="btn-group" role="group" aria-label="...">
+                        <button class="btn btn-default">
+                            <a ng-href="#project">
+                                Back &nbsp;
+                                <i class="fa fa-arrow-left fa-2x"
+                                   aria-hidden="true"></i>
+                            </a>
+                        </button>
                         <button ng-click="resetGraph()" type="button"
                                 class="btn btn-default">
                             Reset &nbsp;
