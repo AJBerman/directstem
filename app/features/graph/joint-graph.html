@@ -27,34 +27,44 @@
 
                 <dt>Options:</dt>
                 <dd>
+                    <!-- =============== PROJECT GRAPH OPTIONS =============== -->
                     <div class="btn-group" role="group" aria-label="...">
-                        <a class="btn btn-default hvr-icon-back "
-                           ng-href="#project"
+                        <!-- back btn-->
+                        <a class="btn btn-default hvr-icon-back"
+                           ng-href=" #project"
                            data-trigger="hover" data-placement="bottom"
                            title="Return to the project listings">
                             Back &nbsp;
                         </a>
-                        <button ng-click="resetGraph()" type="button"
+
+                        <!-- reset btn -->
+                        <button type="button"
                                 class="btn btn-default hvr-icon-sink-away"
                                 data-trigger="hover" data-placement="bottom"
+                                data-toggle="modal" data-target=".reset"
                                 title="Clear the graph. Be careful!">
                             Reset &nbsp;
                         </button>
-                        <button ng-click="saveGraph()" type="button"
+
+                        <!-- save btn -->
+                        <button type="button"
                                 class="btn btn-default hvr-icon-push"
                                 data-trigger="hover" data-placement="bottom"
+                                data-toggle="modal" data-target=".save"
                                 title="Save the current state of the graph for future used">
                             Save &nbsp;
                         </button>
 
-                        <button ng-click="loadGraph()" type="button"
+                        <!-- load btn -->
+                        <button type="button"
                                 class="btn btn-default hvr-icon-spin"
                                 data-trigger="hover" data-placement="bottom"
+                                data-toggle="modal" data-target=".load"
                                 title="Load the the graph previous saved state">
                             Load &nbsp;
                         </button>
 
-                        <!--run button with spinning cog effect -->
+                        <!-- run project btn-->
                         <button data-trigger="hover" data-placement="bottom"
                                 class="btn" ng-class="getBtnClass()"
                                 title="Start the project"
@@ -67,7 +77,35 @@
                     </div>
                 </dd>
             </dl>
+
+
+            <!-- =============== CONFIRMATION MODAL =============== -->
+
+            <!-- ensure that button and confirm-box are matching! example below
+            The data-target should be preceded by a period: . (It is a class)
+
+            on the button element: : data-toggle="modal" data-target=".reset"
+            on the confirm-box element: target="reset"-->
+
+            <!-- reset -->
+            <confirm-box target="reset" title="Confirm Reset"
+                         update-fn="resetGraph()"
+                         content="All unsaved changes will be lost. Please confirm.">
+            </confirm-box>
+
+            <!-- save -->
+            <confirm-box target="save" title="Confirm Save"
+                         update-fn="saveGraph()"
+                         content="All changes to the graph will be saved. Please confirm.">
+            </confirm-box>
+
+            <!-- load -->
+            <confirm-box target="load" title="Confirm Load"
+                         update-fn="loadGraph()"
+                         content="All unsaved changes will be lost when you load a graph. Please confirm.">
+            </confirm-box>
         </div>
+
         <div id="paper" ng-show="getActiveProject().id"></div>
     </div>
 </div>
