@@ -8,6 +8,7 @@ function Project(id, author, name, description) {
     this.author = author;
     this.name = name;
     this.description = description;
+    this.graph = undefined;
 }
 
 /**
@@ -21,7 +22,7 @@ function Project(id, author, name, description) {
  * For example: adding and removing a project from our database or switching project
  */
 angular.module("WebserviceApp.Services")
-    .factory("ProjectFactory", function () {
+    .factory("ProjectFactory", function() {
         var counter = 1000;
 
         var projects = [
@@ -39,12 +40,12 @@ angular.module("WebserviceApp.Services")
         var activeProject = {};
 
         return {
-            addProject: function (project) {
+            addProject: function(project) {
                 projects.push(project);
                 activeProject = {};
             },
 
-            removeProject: function (project) {
+            removeProject: function(project) {
                 for (var i = 0; i < projects.length; i++) {
                     if (projects[i].id === project.id) {
                         projects.splice(i, 1);
@@ -53,24 +54,57 @@ angular.module("WebserviceApp.Services")
                 }
             },
 
-            getProjects: function () {
+            getProjects: function() {
                 return projects;
             },
 
-            generateID: function () {
+            generateID: function() {
                 return counter++;
             },
 
-            getActiveProject: function () {
+            getActiveProject: function() {
                 return activeProject;
             },
 
-            setActiveProject: function (id) {
+            setActiveProject: function(id) {
                 for (var i = 0; i < projects.length; i++) {
                     if (projects[i].id == id) {
                         activeProject = projects[i];
                     }
                 }
+            },
+
+            /* =============== GRAPHS OPERATIONS =============== */
+
+            // save whatever graph MAIN is displaying onto the current project
+            saveGraph: function() {
+                activeProject.graph = JSON.stringify(MAIN_GRAPH);
+                console.log("Graph saved");
+            },
+
+            // clear out the main graph, start over. is an empty graph now
+            resetGraph: function() {
+                MAIN_GRAPH.clear();
+                console.log("Graph reset");
+            },
+
+            // load whatever graph the current project contains
+            loadGraph: function() {
+                MAIN_GRAPH.clear();
+
+                /* If graph is undefined, use whatever "DEFAULT_GRAPH" is.
+
+                 NOTE: We can't initiated an object with DEFAULT_GRAPH because
+                 the script where "DEFAULT_GRAPH" reside may not be loaded
+                 when the project object is being instantiated! */
+                if (activeProject.graph === undefined)
+                    activeProject.graph = JSON.stringify(DEFAULT_GRAPH);
+
+                var myGraph = JSON.parse(activeProject.graph);
+                MAIN_GRAPH.fromJSON(myGraph);
+
+
+                console.log("Graph loaded.");
             }
         }
     });

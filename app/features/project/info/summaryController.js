@@ -9,5 +9,17 @@ angular.module("WebserviceApp.Controllers")
         $scope.getActiveProject = function () {
             $scope.activeProject = ProjectFactory.getActiveProject();
             return $scope.activeProject;
+        };
+
+        $scope.saveGraph= function() {
+            ProjectFactory.saveGraph();
+        };
+
+        $scope.resetGraph = function() {
+            ProjectFactory.resetGraph();
+        };
+
+        $scope.loadGraph = function() {
+            ProjectFactory.loadGraph();
         }
     });
