@@ -184,9 +184,6 @@
             helper: 'clone',
             zIndex: 10000 // was having issues with paper being over draggable _item
         });
-        $(document).ready(function() {
-            $('[data-toggle="popover"]').popover();
-        });
         $("#paper").droppable({
 
             // creates a node on the mouse up,based on what image id was dropped
@@ -219,7 +216,31 @@
                     inPorts: ['In'],
                     outPorts: ['Out'],
                     attrs: {
-                        '.label': {text: dropText},
+                        '.label': {
+                            text: dropText, 'data-toggle': 'popover', title: 'Modify Me!',
+                            'data-content': '<form action="action_page.php"> \
+                                  Type:<br> \
+                                  <select name="type"> \
+                                    <option value="Service">Service</option> \
+                                    <option value="Graph">Graph</option> \
+                                  </select><br> \
+                                  Service:<br> \
+                                  <select name="service"> \
+                                    <option value="WeatherByZip">WeatherByZip</option> \
+                                    <option value="WeatherByCity">WeatherByCity</option> \
+                                    <option value="calc_add">CalculatorAdd</option> \
+                                    <option value="calc_sub">CalculatorSubtract</option> \
+                                    <option value="calc_mul">CalculatorMultiply</option> \
+                                    <option value="calc_div">CalculatorDivide</option> \
+                                  </select><br> \
+                                  Endpoint:<br> \
+                                  <select name="serviceEndpoint"> \
+                                    <option value="foo">Foo</option> \
+                                    <option value="bar">Bar</option> \
+                                  </select><br> \
+                                  <input type="submit" value="Save"><button>Edit...</button><button>Delete</button></form>',
+                            'data-html': 'true', 'data-container': 'body'
+                        },
                         rect: {fill: '#d9534f'},
 
                         '.inPorts circle': {
@@ -236,6 +257,7 @@
                     }
                 });
                 MAIN_GRAPH.addCell(newNode);
+                $('[data-toggle="popover"]').popover();
             }
         });
     });

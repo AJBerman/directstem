@@ -102,6 +102,7 @@ angular.module("WebserviceApp.Services")
 
                 var myGraph = JSON.parse(activeProject.graph);
                 MAIN_GRAPH.fromJSON(myGraph);
+				$('[data-toggle="popover"]').popover(); //yeah yeah, display code in the factory, boo.
 
 
                 console.log("Graph loaded.");
