@@ -63,7 +63,7 @@
                         <button data-trigger="hover" data-placement="bottom"
                                 class="btn" ng-class="getBtnClass()"
                                 title="Start the project"
-                                ng-click="toggleRunBtn(run,stop)">
+                                ng-click="toggleRunBtn(run,stop);">
                             {{displayBtnText('Run Project')}}
                             <i class="fa fa-cog fa-fw "
                                ng-class="getIconClass()">
@@ -101,22 +101,32 @@
             </confirm-box>
         </div>
 
+
+        <!-- Draggable image that can be used to create a graph node -->
         <div class="container text-center">
-            <!-- added placeholder images for services -->
-            <i id="img1" class="_item fa fa-calculator fa-5x hvr-wobble-to-bottom-right"
+            <i id="img1"
+               class="_item fa fa-calculator fa-5x hvr-wobble-to-bottom-right"
                aria-hidden="true"></i>
 
-            <i id="img2" class="_item fa fa-server fa-5x hvr-wobble-to-bottom-right"
+            <i id="img2"
+               class="_item fa fa-server fa-5x hvr-wobble-to-bottom-right"
                aria-hidden="true"></i>
 
-            <i id="img3" class="_item fa fa-film fa-5x hvr-wobble-to-bottom-right" aria-hidden="true"></i>
-
-            <i id="img4" class="_item fa fa-car fa-5x hvr-wobble-to-bottom-right" aria-hidden="true"></i>
-
-            <i id="img5" class="_item fa fa-tachometer fa-5x hvr-wobble-to-bottom-right"
+            <i id="img3"
+               class="_item fa fa-film fa-5x hvr-wobble-to-bottom-right"
                aria-hidden="true"></i>
 
-            <i id="img6" class="_item fa fa-users fa-5x hvr-wobble-to-bottom-right" aria-hidden="true"></i>
+            <i id="img4"
+               class="_item fa fa-car fa-5x hvr-wobble-to-bottom-right"
+               aria-hidden="true"></i>
+
+            <i id="img5"
+               class="_item fa fa-tachometer fa-5x hvr-wobble-to-bottom-right"
+               aria-hidden="true"></i>
+
+            <i id="img6"
+               class="_item fa fa-users fa-5x hvr-wobble-to-bottom-right"
+               aria-hidden="true"></i>
         </div>
 
         <div id="paper"></div>
@@ -126,7 +136,7 @@
 <script>
     /* =============== BOOTSTRAP =============== */
     // need to manually opt it for bootstrap tooltip
-    $(function() {
+    $(function () {
         $('[data-trigger="hover"]').tooltip()
     });
 
@@ -157,7 +167,7 @@
         height: 1000,
         gridSize: 10,
         model: MAIN_GRAPH,
-        defaultLink: function() {
+        defaultLink: function () {
             link = new joint.dia.Link({
                 router: {name: 'metro'},
                 connector: {name: 'rounded'},
@@ -180,7 +190,7 @@
 
 
     /* allows for drag and drop */
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         $("._item").draggable({
             helper: 'clone',
@@ -190,7 +200,7 @@
 
             // creates a node on the mouse up,based on what image id was dropped
             // in the paper from the sidescroll list above
-            drop: function(event, ui) {
+            drop: function (event, ui) {
 
                 var offset = $(this).offset();
                 var relX = ui.position.left - offset.left;
@@ -219,7 +229,9 @@
                     outPorts: ['Out'],
                     attrs: {
                         '.label': {
-                            text: dropText, 'data-toggle': 'popover', title: 'Modify Me!',
+                            text: dropText,
+                            'data-toggle': 'popover',
+                            title: 'Modify Me!',
                             'data-content': '<form action="action_page.php"> \
                                   Type:<br> \
                                   <select name="type"> \
@@ -241,7 +253,8 @@
                                     <option value="bar">Bar</option> \
                                   </select><br> \
                                   <input type="submit" value="Save"><button>Edit...</button><button>Delete</button></form>',
-                            'data-html': 'true', 'data-container': 'body'
+                            'data-html': 'true',
+                            'data-container': 'body'
                         },
                         rect: {fill: '#d9534f'},
 

@@ -46,10 +46,14 @@ angular.module("WebserviceApp.Controllers")
         $scope.toggleRunBtn = function() {
             runBtnToggle = !runBtnToggle;
             runBtnToggle ? runBtnText = "Stop Project" : runBtnText = "Run Project";
+
+            // push random data to activeProject report whenever a project's
+            // webservice is run
+            if(runBtnToggle) ProjectFactory.generateRandomData();
+
         };
 
         $scope.getIconClass = function() {
-            console.log("getIconClass called");
             return runBtnToggle ? SPIN_ICON : ""
         };
 

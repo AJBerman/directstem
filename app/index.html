@@ -17,8 +17,6 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-    <!-- custom stylsesheet -->
-
     <!-- =============== Bootstrap =============== -->
     <link rel="stylesheet" href="styles/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="styles/bootstrap/dist/css/bootstrap-theme.css">
@@ -49,6 +47,8 @@
     <!-- components -->
     <script src="components/tabs/tabDirectives.js"></script>
     <script src="components/confirm_box/confirmBoxDirective.js"></script>
+    <script src="components/debug/logDirective.js"></script>
+    <script src="components/visuals/barChartDirective.js"></script>
 
     <!-- filters -->
     <script src="components/filters/customFilters.js"></script>
@@ -64,10 +64,15 @@
     <!-- =============== Font Awesome =============== -->
     <link rel="stylesheet"
           href="styles/font-awesome-4.6.3/css/font-awesome.css">
+
+    <!-- =============== D3 =============== -->
+    <script src="//d3js.org/d3.v3.min.js"></script>
+
 </head>
 
 
-<body>
+<!-- TODO: change these controllers name to better reflect its purpose-->
+<body ng-controller="ProjectListCtrl">
 <header>
     <nav-bar></nav-bar>
     <carosuel></carosuel>

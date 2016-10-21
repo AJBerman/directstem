@@ -40,16 +40,15 @@
 
                 </dd>
 
-                <hr/>
             </dl>
             <hr/>
 
-            <div ng-transclude=""></div>
+            <bar-chart data="activeProject"></bar-chart>
         </div>
     </div>
 </div>
 
-<!-- show error if theere are no project selected -->
+<!-- show error if there are no project selected -->
 <div class="container" ng-controller="SidebarCtrl"
      ng-hide="getActiveProject().id">
 
@@ -57,4 +56,3 @@
         <p>There is nothing to see here. Please select a project first!</p>
     </div>
 </div>
-

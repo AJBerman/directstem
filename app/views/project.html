@@ -1,13 +1,10 @@
+<section class="container" >
 
-
-<section class="container">
     <tabs>
         <!-- display all the projects -->
-        <div ng-controller="ProjectListCtrl">
-            <pane title="Projects" length="projects.length">
-                <project-list></project-list>
-            </pane>
-        </div>
+        <pane title="Projects" length="projects.length">
+            <project-list></project-list>
+        </pane>
 
         <!-- display the current active project -->
         <pane title="Current Project">

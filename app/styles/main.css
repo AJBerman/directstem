@@ -63,3 +63,15 @@ section {
 ._item {
     margin: 0 .5em 0 .5em
 }
+
+
+/* for bar char directives made with D3 */
+
+.chart div {
+    font: 10px sans-serif;
+    background-color: steelblue;
+    text-align: right;
+    padding: 3px;
+    margin: 1px;
+    color: white;
+}
