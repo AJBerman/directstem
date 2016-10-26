@@ -43,8 +43,33 @@
             </dl>
             <hr/>
 
-            <bar-chart data="activeProject"></bar-chart>
+            <div ng-switch on="selectedOption.name">
+
+                <!-- You then use the ng-switch-when directive to denote a region of
+                 content that will be associated with a specific value.-->
+                <div ng-switch-when="Reports">
+                    <code>Reports: {{activeProject.dataReport.length}}</code>
+                    <bar-chart data="activeProject"></bar-chart>
+                </div>
+
+
+                <!-- another ng-switch-when directives -->
+                <div ng-switch-when="Analytic">
+                    <p><code>Analytic</code></p>
+                    <line-chart></line-chart>
+                </div>
+
+                <!-- The ng-switch-default directive is used to specify content that
+                should be displayed when none of the ng-switch-when sections matches -->
+                <div ng-switch-default>
+                   <code>{{selectedOption}}" Nothing here yet!. Select another options</code>
+                </div>
+
+            </div>
+
+
         </div>
+
     </div>
 </div>
 
