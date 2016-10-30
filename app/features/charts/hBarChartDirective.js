@@ -4,22 +4,22 @@ angular.module("app.Directives")
             /**
              * chart based on http://bl.ocks.org/juan-cb/faf62e91e3c70a99a306
              */
-            var data =  scope.data;
+            var chart=  scope.data;
 
 
             var axisMargin  = 20;
             var margin      = 40;
             var valueMargin = 4;
             var width       = parseInt(d3.select('body').style('width'), 10);
-            var height      = parseInt(d3.select('body').style('height'), 10);
-            var barHeight   = (height - axisMargin - margin * 2) * 0.4 / data.length;
-            var barPadding  = (height - axisMargin - margin * 2) * 0.6 / data.length;
+            var height      =  chart.data.length * 50;
+            var barHeight   = (height - axisMargin - margin * 2) * 0.4 / chart.data.length;
+            var barPadding  =  30;
             var labelWidth  = 100;
 
 
             /* =============== UTILITY =============== */
             // Calculate the max count from the data set, used for creating axis
-            var max = d3.max(data, function (d) {
+            var max = d3.max(chart.data, function (d) {
                 return d.count;
             });
 
@@ -36,7 +36,7 @@ angular.module("app.Directives")
                 .orient("bottom");
 
 
-            var totalCount = data.reduce(function (accumulator, current) {
+            var totalCount = chart.data.reduce(function (accumulator, current) {
                 return  accumulator + current.count;
             }, 0);
 
@@ -55,7 +55,7 @@ angular.module("app.Directives")
 
             // Add <g>, each g will contain a bar chart (data)
             var bar = svg.selectAll("g")
-                .data(data, function (entry) {
+                .data(chart.data, function (entry) {
                     return entry.letter;
                 })
                 .enter().append("g")

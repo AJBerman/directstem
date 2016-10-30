@@ -15,10 +15,20 @@
     <!-- Features -->
     <script src="app.js"></script>
     <script src="features/charts/hBarChartDirective.js"></script>
-</head>
-<body class="container" ng-app="app">
+    <script src="features/charts/chartFactory.js"></script>
+    <script src="features/charts/chartController.js"></script>
 
-<horizontal-bar-chart data="[{letter:'A', count:15}]"></horizontal-bar-chart>
+</head>
+<body class="container" ng-app="app" ng-controller="CharCtrl">
+
+
+<form class="col-sm-6">
+    <label for="web-service-string">Enter Text</label>
+    <textarea id="web-service-string" class="form-control" rows="10"></textarea>
+    <button type="button" class="btn btn-primary">Submit</button>
+</form>
+
+<horizontal-bar-chart data="chart"></horizontal-bar-chart>
 
 </body>
 </html>
