@@ -4,13 +4,7 @@ angular.module("app.Directives")
             /**
              * chart based on http://bl.ocks.org/juan-cb/faf62e91e3c70a99a306
              */
-            var data = [
-                {letter: "A", count: 19},
-                {letter: "E", count: 5},
-                {letter: "I", count: 13},
-                {letter: "O", count: 17},
-                {letter: "U", count: 19}
-            ];
+            var data =  scope.data;
 
 
             var axisMargin  = 20;
@@ -142,6 +136,7 @@ angular.module("app.Directives")
 
         return {
             restrict: "E",
+            scope: {data: "="},
             link    : link
         }
     });
