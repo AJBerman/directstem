@@ -12,7 +12,7 @@
     <!-- =============== STYLE SHEET =============== -->
     <link rel="stylesheet" href="styles/app.css">
 
-    <!-- Features -->
+    <!-- =============== FEATURES =============== -->
     <script src="app.js"></script>
     <script src="features/charts/hBarChartDirective.js"></script>
     <script src="features/charts/chartFactory.js"></script>
@@ -21,11 +21,10 @@
 </head>
 <body class="container" ng-app="app" ng-controller="CharCtrl">
 
-
 <form class="col-sm-6">
     <label for="web-service-string">Enter Text</label>
-    <textarea id="web-service-string" class="form-control" rows="10"></textarea>
-    <button type="button" class="btn btn-primary">Submit</button>
+    <textarea ng-model="text" id="web-service-string" class="form-control" rows="10"></textarea>
+    <button ng-click="webservice(text)" type="button" class="btn btn-primary">Submit</button>
 </form>
 
 <horizontal-bar-chart data="chart"></horizontal-bar-chart>

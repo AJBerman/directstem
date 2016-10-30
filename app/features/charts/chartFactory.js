@@ -1,8 +1,8 @@
 angular.module("app.Services")
     .factory("ChartFactory", function () {
 
+        /* Default chart data */
         var chart = {
-            // Default Chart Data
             data: [
                 {letter: "A", count: 19},
                 {letter: "E", count: 5},
@@ -20,6 +20,18 @@ angular.module("app.Services")
         return {
             getChart: function () {
                 return chart;
+            },
+
+            setChartDataArray: function (array) {
+                chart.data = array;
+            },
+
+            addChartData: function (data) {
+                chart.data.push(data);
+            },
+
+            clearChartData: function () {
+                chart.data = [];
             }
         }
     });
