@@ -94,23 +94,27 @@ public class HelloWorldImp implements HelloWorld {
 
             case "polynomial":
 
-                // up to 5 variables
-                double[] polynomialMultiples = new double[random.nextInt(4) + 1];
+                int polynomialVariables = random.nextInt(4) + 1;
+
+                List<Double> polynomialMultiples = new ArrayList<Double>();
 
                 // puts a random number in the position
-                for (int index = 0; index < polynomialMultiples.length; index++) {
-                    polynomialMultiples[index] = random.nextDouble() + random.nextInt(21) - 10;
+                for (int index = 0; index < polynomialVariables; index++) {
+                    polynomialMultiples.add(random.nextDouble() + random.nextInt(21) - 10);
                 }
 
-                for (int index = 0; index < arraySize; index++) {
+                double constant = random.nextDouble() + random.nextInt(21) - 10;
+                double sum = 0;
 
-                    double sum = 0;
+                // number * x ^ pow + number * x ^ (pow - 1) + ... + number * x ^ 1 + constant
+                for (int index = 0; index < arraySize; index++, sum = 0) {
 
-                    for (int pos = 0, pow = polynomialMultiples.length; pos < polynomialMultiples.length; pos++, pow--) {
+                    for (int pos = 0, pow = polynomialMultiples.size(); pos < polynomialMultiples.size(); pos++, pow--) {
 
-                        sum += Math.pow(polynomialMultiples[pos], pow);
+                        sum += polynomialMultiples.get(pos) * Math.pow(xCoordinates.get(index), pow);
                     }
 
+                    sum += constant;
                     yCoordinates.add(sum);
                 }
                 break;

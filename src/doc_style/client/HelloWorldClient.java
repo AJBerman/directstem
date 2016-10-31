@@ -4,8 +4,6 @@ package doc_style.client;
  * Created by luisf on 9/11/2016.
  */
 
-import rpc_style.server.HelloWorld;
-
 import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
@@ -33,6 +31,5 @@ public class HelloWorldClient {
         System.out.println(hello.getXY("polynomial",5));
         System.out.println(hello.getXY("exponential",5));
         System.out.println(hello.getXY("log",5));
-
     }
 }
