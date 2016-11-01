@@ -27,9 +27,12 @@
 
                 <dt>Description</dt>
                 <dd>{{activeProject.description}}</dd>
+            </dl>
 
-                <dt>Options:</dt>
-                <dd>
+            <!-- Display view based on sidebar options -->
+            <div ng-switch on="selectedOption.name">
+
+                <div ng-switch-when="Graph">
                     <!-- =============== PROJECT GRAPH OPTIONS =============== -->
                     <div class="btn-group" role="group" aria-label="...">
                         <!-- back btn-->
@@ -39,7 +42,6 @@
                            title="Return to the project listings">
                             Back &nbsp;
                         </a>
-
                         <!-- reset btn -->
                         <button type="button"
                                 class="btn btn-default hvr-icon-sink-away"
@@ -48,7 +50,6 @@
                                 title="Clear the graph. Be careful!">
                             Reset &nbsp;
                         </button>
-
                         <!-- save btn -->
                         <button type="button"
                                 class="btn btn-default hvr-icon-push"
@@ -57,7 +58,6 @@
                                 title="Save the current state of the graph for future used">
                             Save &nbsp;
                         </button>
-
                         <!-- load btn -->
                         <button type="button"
                                 class="btn btn-default hvr-icon-spin"
@@ -66,38 +66,44 @@
                                 title="Load the the graph previous saved state">
                             Load &nbsp;
                         </button>
-
                         <!-- run project btn-->
                         <button data-trigger="hover" data-placement="bottom"
                                 class="btn" ng-class="getBtnClass()"
                                 title="Start the project"
                                 ng-click="toggleRunBtn(run,stop);">
                             {{displayBtnText('Run Project')}}
-                            <i class="fa fa-cog fa-fw "
-                               ng-class="getIconClass()">
+                            <i class="fa fa-cog fa-fw " ng-class="getIconClass()">
                             </i>
                         </button>
+
                     </div>
-                </dd>
-            </dl>
-            <hr/>
-
-            <!-- Display view based on sidebar options -->
-            <div ng-switch on="selectedOption.name">
-
-                <div ng-switch-when="Graph">
+                    <hr/>
                     <webservice-gui data="activeProject"></webservice-gui>
                 </div>
 
+
                 <div ng-switch-when="Reports">
-                    <code>Reports: {{activeProject.dataReport.length}}</code>
+                    <!-- run project btn-->
+                    <button data-trigger="hover" data-placement="bottom"
+                            class="btn" ng-class="getBtnClass()"
+                            title="Start the project"
+                            ng-click="toggleRunBtn(run,stop);">
+                        {{displayBtnText('Run Project')}}
+                        <i class="fa fa-cog fa-fw " ng-class="getIconClass()">
+                        </i>
+                    </button>
+                    <hr/>
+
+                    <ws-log>Reports: {{activeProject.dataReport.length}}</ws-log>
                     <bar-chart data="activeProject"></bar-chart>
                 </div>
+
 
                 <div ng-switch-when="Analytic">
                     <p><code>Analytic</code></p>
                     <line-chart></line-chart>
                 </div>
+
 
                 <div ng-switch-default>
                     <code>{{selectedOption}}" Nothing here yet!. Select another

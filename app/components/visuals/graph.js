@@ -363,6 +363,40 @@ Graph.prototype.svgMouseUp = function () {
     }
     state.graphMouseDown = false;
 };
+
+/* =============== MISCELLANEOUS  PROTOTYPE FUNCTIONS =============== */
+/**
+ * Return a copy of the state of the graph. Can be used to repopulate the
+ * the state of the graph.
+ * @returns {{nodes: Array, edges: Array}}
+ */
+Graph.prototype.saveState = function () {
+    var nodes = [];
+    var edges = [];
+
+    this.nodes.forEach(function (node) {
+        nodes.push({id: node.id, x: node.x, y: node.y})
+    });
+
+    this.edges.forEach(function (edge) {
+        edges.push({source: edge.source, target: edge.target});
+    });
+
+    return {nodes: nodes, edges: edges};
+};
+
+
+/**
+ * Return a "start-up" graph. Default graph.
+ * @returns {{nodes: *[], edges: *[]}}
+ */
+Graph.prototype.defaultState = function () {
+    var nodes = [{title: "new concept", id: 0, x: 575, y: 100},
+        {title: "new concept", id: 1, x: 575, y: 100 + 200}];
+    var edges = [{source: nodes[1], target: nodes[0]}];
+
+    return {nodes: nodes, edges: edges};
+};
 /* =============== MAIN FUNCTION  =============== */
 
 /**

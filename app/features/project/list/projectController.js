@@ -88,6 +88,7 @@ angular.module("WebserviceApp.Controllers")
             /* =============== SIDE BAR OPTIONS  FUNCTIONS =============== */
             $scope.selectOption = function (option) {
                 $scope.selectedOption = option;
+                ProjectFactory.clearGraph();
             };
 
             $scope.getOptionClass = function (option) {

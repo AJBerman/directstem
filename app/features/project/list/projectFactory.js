@@ -1,7 +1,3 @@
-/**
- * Created by shay on 10/12/16.
- */
-
 // a very simple project model
 function Project(id, author, name, description) {
     this.id          = id;
@@ -11,10 +7,9 @@ function Project(id, author, name, description) {
 
     /* --------------- DEFAULT VALUES --------------- */
 
-    this.graph = {
-        nodes: undefined,
-        edges: undefined
-    };
+    this.graph = {};
+    this.nodes = undefined;
+    this.edges = undefined;
 
     // array of webservice "run performance" values
     this.dataReport = [];
@@ -84,23 +79,59 @@ angular.module("WebserviceApp.Services")
             },
 
             /* =============== GRAPHS OPERATIONS =============== */
+            /* TODO: clean up graph operations code, very messy */
 
             // save whatever graph MAIN is displaying onto the current project
             saveGraph: function () {
+                var savedState      = activeProject.graph.saveState();
+                activeProject.nodes = savedState.nodes;
+                activeProject.edges = savedState.edges;
 
-                console.log("Graph saved");
             },
 
             // clear out the main graph, start over. is an empty graph now
             resetGraph: function () {
+                var svg = d3.select(".svg-main");
+                svg.selectAll("*").remove();
 
-                console.log("Graph reset");
+                var defaultState = Graph.prototype.defaultState();
+                var nodes        = defaultState.nodes;
+                var edges        = defaultState.edges;
+
+                activeProject.graph = new Graph(svg, nodes, edges);
+                activeProject.graph.updateGraph();
             },
 
             // load whatever graph the current project contains
             loadGraph: function () {
+                var svg = d3.select(".svg-main");
+                svg.selectAll("*").remove();
 
-                console.log("Graph loaded.");
+                if (activeProject.nodes) {
+                    var nodes = [];
+                    var edges = [];
+
+                    activeProject.nodes.forEach(function (n) {
+                        nodes.push({id: n.id, x: n.x, y: n.y});
+                    });
+                    activeProject.edges.forEach(function (e) {
+                        edges.push({source: e.source, target: e.target});
+                    });
+
+                    activeProject.graph = new Graph(svg, nodes, edges);
+                    activeProject.graph.updateGraph();
+
+                    console.log("loading a previous graph");
+                } else {
+                    this.resetGraph();
+                    console.log("no data, loading a default graph");
+                }
+            },
+
+            /* Clear the graph object because it contains reference to SVG.
+             * This allow other application to generate SVG*/
+            clearGraph: function () {
+                activeProject.graph = {};
             },
 
 
