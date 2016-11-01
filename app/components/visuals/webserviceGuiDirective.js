@@ -1,6 +1,6 @@
 angular.module("WebserviceApp.Directives")
-    .directive("webserviceGui", function() {
-        function link (scope, element) {
+    .directive("webserviceGui", function () {
+        function link(scope, element) {
             /** MAIN SVG **/
             var width = 1200, height = 600;
             var xLoc  = width / 2 - 25;
@@ -10,22 +10,29 @@ angular.module("WebserviceApp.Directives")
                 .attr("width", width)
                 .attr("height", height);
 
-            var nodes = [
-                {id: 0, x: xLoc, y: yLoc},
-                {id: 1, x: xLoc, y: yLoc + 200}
-            ];
+            if (!scope.project.graph) {
+                var nodes = [
+                    {id: 0, x: xLoc, y: yLoc},
+                    {id: 1, x: xLoc, y: yLoc + 200}
+                ];
 
-            var edges = [
-                {source: nodes[1], target: nodes[0]}
-            ];
+                var edges = [
+                    {source: nodes[1], target: nodes[0]}
+                ];
 
-            var myGraph = new Graph(svg, nodes, edges);
-            myGraph.updateGraph();
+                var myGraph = new Graph(svg, nodes, edges);
+                myGraph.updateGraph();
+
+                console.log("LOAD DEFAULT DATA");
+            } else {
+                console.log("LOAD DATA");
+            }
         }
 
 
         return {
             restrict: "E",
-            link: link
+            scope   : {project: "="},
+            link    : link
         }
     });
