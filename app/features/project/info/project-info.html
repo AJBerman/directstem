@@ -1,6 +1,5 @@
 <!-- display the project overview -->
-<div class="container" ng-controller="SidebarCtrl"
-     ng-show="getActiveProject().id">
+<div class="container" ng-show="getActiveProject().id">
 
     <div class="row">
 
@@ -87,7 +86,7 @@
             <div ng-switch on="selectedOption.name">
 
                 <div ng-switch-when="Graph">
-                    <webservice-gui project="activeProject"></webservice-gui>
+                    <webservice-gui data="activeProject"></webservice-gui>
                 </div>
 
                 <div ng-switch-when="Reports">
@@ -138,8 +137,7 @@
 </div>
 
 <!-- show error if there are no project selected -->
-<div class="container" ng-controller="SidebarCtrl"
-     ng-hide="getActiveProject().id">
+<div class="container" ng-hide="getActiveProject().id">
 
     <div class="alert alert-danger col-sm-6" role="alert">
         <p>There is nothing to see here. Please select a project first!</p>

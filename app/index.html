@@ -22,8 +22,7 @@
 
     <!-- controllers -->
     <script src="features/navbar/NavBarController.js"></script>
-    <script src="features/project/list/projectListController.js"></script>
-    <script src="features/project/info/sidebarController.js"></script>
+    <script src="features/project/list/projectController.js"></script>
 
     <!-- directives -->
     <script src="features/navbar/NavBarDirective.js"></script>
@@ -44,8 +43,9 @@
     <!-- filters -->
     <script src="components/filters/customFilters.js"></script>
 
-    <!-- factories -->
+    <!-- services -->
     <script src="features/project/list/projectFactory.js"></script>
+    <script src="features/constants/constantFactory.js"></script>
 
     <!-- =============== Stylesheet =============== -->
     <link rel="stylesheet" href="styles/main.css">
@@ -64,8 +64,7 @@
 </head>
 
 
-<!-- TODO: change these controllers name to better reflect its purpose-->
-<body ng-controller="ProjectListCtrl">
+<body ng-controller="ProjectCtrl">
 <header>
     <nav-bar></nav-bar>
     <carosuel></carosuel>
