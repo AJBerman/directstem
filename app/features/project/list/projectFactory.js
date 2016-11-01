@@ -4,15 +4,17 @@
 
 // a very simple project model
 function Project(id, author, name, description) {
-    this.id = id;
-    this.author = author;
-    this.name = name;
+    this.id          = id;
+    this.author      = author;
+    this.name        = name;
     this.description = description;
 
     /* --------------- DEFAULT VALUES --------------- */
 
-    // stringify JSON of joint.js graph object
-    this.graph = undefined;
+    this.graph = {
+        nodes: undefined,
+        edges: undefined
+    };
 
     // array of webservice "run performance" values
     this.dataReport = [];
@@ -45,7 +47,6 @@ angular.module("WebserviceApp.Services")
         ];
 
         var activeProject = {};
-        var report = {dataReport: []};
 
         return {
             addProject: function (project) {
@@ -111,7 +112,7 @@ angular.module("WebserviceApp.Services")
              * the activeProject dataReport array
              */
             generateRandomData: function () {
-                var min = 1, max = 100;
+                var min        = 1, max = 100;
                 var randomData = Math.floor(Math.random() * (max - min + 1)) + min;
                 activeProject.dataReport.push(randomData);
             }

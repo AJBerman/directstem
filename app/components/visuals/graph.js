@@ -5,7 +5,7 @@
 
 
 function Graph(svgIn, nodesIn, edgesIn) {
-    this.counter  = nodesIn.length || 0;
+    this.counter  = nodesIn ? nodesIn.length : 0;
     // for clarity: typing this over and over can be confusing
     var thisGraph = this;
 
@@ -446,6 +446,12 @@ Graph.prototype.updateGraph = function () {
 
     newGs.append("circle")
         .attr("r", String(final.NODE_RADIUS));
+
+    newGs.append("text")
+        .attr("text-anchor", "middle")
+        .text(function (d) {
+            return d.id;
+        });
 
     // remove old nodes;
     thisGraph.circles.exit().remove();
