@@ -5,7 +5,7 @@
     <div class="row">
 
         <!-- SIDE BAR -->
-        <div class="col-sm-3 col-md-2 sidebar">
+        <div class="col-sm-2 sidebar">
             <ul class="nav nav-sidebar" ng-repeat="option in sidebarOptions">
                 <li ng-click="selectOption(option)"
                     ng-class="getOptionClass(option)">
@@ -15,7 +15,7 @@
         </div>
 
         <!-- PROJECT INFO -->
-        <div class="col-sm-7">
+        <div class="col-sm-10">
             <dl class="dl-horizontal">
                 <dt>ID</dt>
                 <dd>{{activeProject.id}}</dd>
@@ -29,45 +29,109 @@
                 <dt>Description</dt>
                 <dd>{{activeProject.description}}</dd>
 
-                <!-- create or load a webservice graph gui project -->
-                <dt>Options</dt>
+                <dt>Options:</dt>
                 <dd>
+                    <!-- =============== PROJECT GRAPH OPTIONS =============== -->
+                    <div class="btn-group" role="group" aria-label="...">
+                        <!-- back btn-->
+                        <a class="btn btn-default hvr-icon-back"
+                           ng-href=" #project"
+                           data-trigger="hover" data-placement="bottom"
+                           title="Return to the project listings">
+                            Back &nbsp;
+                        </a>
 
-                    <a ng-href="#graph" class="btn btn-default">
-                        Start Graph &nbsp;
-                        <i class="fa fa-play" aria-hidden="true"></i>
-                    </a>
+                        <!-- reset btn -->
+                        <button type="button"
+                                class="btn btn-default hvr-icon-sink-away"
+                                data-trigger="hover" data-placement="bottom"
+                                data-toggle="modal" data-target=".reset"
+                                title="Clear the graph. Be careful!">
+                            Reset &nbsp;
+                        </button>
 
+                        <!-- save btn -->
+                        <button type="button"
+                                class="btn btn-default hvr-icon-push"
+                                data-trigger="hover" data-placement="bottom"
+                                data-toggle="modal" data-target=".save"
+                                title="Save the current state of the graph for future used">
+                            Save &nbsp;
+                        </button>
+
+                        <!-- load btn -->
+                        <button type="button"
+                                class="btn btn-default hvr-icon-spin"
+                                data-trigger="hover" data-placement="bottom"
+                                data-toggle="modal" data-target=".load"
+                                title="Load the the graph previous saved state">
+                            Load &nbsp;
+                        </button>
+
+                        <!-- run project btn-->
+                        <button data-trigger="hover" data-placement="bottom"
+                                class="btn" ng-class="getBtnClass()"
+                                title="Start the project"
+                                ng-click="toggleRunBtn(run,stop);">
+                            {{displayBtnText('Run Project')}}
+                            <i class="fa fa-cog fa-fw "
+                               ng-class="getIconClass()">
+                            </i>
+                        </button>
+                    </div>
                 </dd>
-
             </dl>
             <hr/>
 
+            <!-- Display view based on sidebar options -->
             <div ng-switch on="selectedOption.name">
 
-                <!-- You then use the ng-switch-when directive to denote a region of
-                 content that will be associated with a specific value.-->
+                <div ng-switch-when="Graph">
+                    <webservice-gui></webservice-gui>
+                </div>
+
                 <div ng-switch-when="Reports">
                     <code>Reports: {{activeProject.dataReport.length}}</code>
                     <bar-chart data="activeProject"></bar-chart>
                 </div>
 
-
-                <!-- another ng-switch-when directives -->
                 <div ng-switch-when="Analytic">
                     <p><code>Analytic</code></p>
                     <line-chart></line-chart>
                 </div>
 
-                <!-- The ng-switch-default directive is used to specify content that
-                should be displayed when none of the ng-switch-when sections matches -->
                 <div ng-switch-default>
-                   <code>{{selectedOption}}" Nothing here yet!. Select another options</code>
+                    <code>{{selectedOption}}" Nothing here yet!. Select another
+                        options</code>
                 </div>
 
             </div>
 
+            <!-- =============== CONFIRMATION MODAL =============== -->
 
+            <!-- ensure that button and confirm-box are matching! example below
+            The data-target should be preceded by a period: . (It is a class)
+
+            on the button element: : data-toggle="modal" data-target=".reset"
+            on the confirm-box element: target="reset"-->
+
+            <!-- reset -->
+            <confirm-box target="reset" title="Confirm Reset"
+                         update-fn="resetGraph()"
+                         content="All unsaved changes will be lost. Please confirm.">
+            </confirm-box>
+
+            <!-- save -->
+            <confirm-box target="save" title="Confirm Save"
+                         update-fn="saveGraph()"
+                         content="All changes to the graph will be saved. Please confirm.">
+            </confirm-box>
+
+            <!-- load -->
+            <confirm-box target="load" title="Confirm Load"
+                         update-fn="loadGraph()"
+                         content="All unsaved changes will be lost when you load a graph. Please confirm.">
+            </confirm-box>
         </div>
 
     </div>

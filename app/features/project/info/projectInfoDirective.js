@@ -9,16 +9,21 @@ angular.module("WebserviceApp.Directives")
  */
     .directive("projectInfo", function () {
         return {
-            restrict: "E",
+            restrict   : "E",
             templateUrl: "features/project/info/project-info.html",
-            transclude: true,
-            controller: function ($scope, ProjectFactory) {
+            transclude : true,
+            controller : function ($scope, ProjectFactory) {
 
                 $scope.activeProject = ProjectFactory.getActiveProject();
+                $scope.graph         = false;
 
                 $scope.getActiveProject = function () {
                     $scope.activeProject = ProjectFactory.getActiveProject();
-                    return  $scope.activeProject;
+                    return $scope.activeProject;
+                };
+
+                $scope.toggleGraph = function () {
+                    $scope.graph = !$scope.graph;
                 }
             }
         }

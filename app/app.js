@@ -30,10 +30,6 @@ angular.module("WebserviceApp")
             templateUrl: "/views/contact.html"
         });
 
-        $routeProvider.when("/graph", {
-            templateUrl: "/features/graph/joint-graph.html"
-        });
-
         $routeProvider.otherwise({
             templateUrl: "/views/project.html"
         });

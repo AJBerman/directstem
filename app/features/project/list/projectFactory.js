@@ -86,32 +86,18 @@ angular.module("WebserviceApp.Services")
 
             // save whatever graph MAIN is displaying onto the current project
             saveGraph: function () {
-                activeProject.graph = JSON.stringify(MAIN_GRAPH);
+
                 console.log("Graph saved");
             },
 
             // clear out the main graph, start over. is an empty graph now
             resetGraph: function () {
-                MAIN_GRAPH.clear();
+
                 console.log("Graph reset");
             },
 
             // load whatever graph the current project contains
             loadGraph: function () {
-                MAIN_GRAPH.clear();
-
-                /* If graph is undefined, use whatever "DEFAULT_GRAPH" is.
-
-                 NOTE: We can't initiated an object with DEFAULT_GRAPH because
-                 the script where "DEFAULT_GRAPH" reside may not be loaded
-                 when the project object is being instantiated! */
-                if (activeProject.graph === undefined)
-                    activeProject.graph = JSON.stringify(DEFAULT_GRAPH);
-
-                var myGraph = JSON.parse(activeProject.graph);
-                MAIN_GRAPH.fromJSON(myGraph);
-                $('[data-toggle="popover"]').popover(); //yeah yeah, display code in the factory, boo.
-
 
                 console.log("Graph loaded.");
             },
