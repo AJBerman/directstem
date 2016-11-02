@@ -2,7 +2,7 @@
 
 angular.module("WebserviceApp.Controllers")
     .controller("ProjectCtrl",
-        function ($scope, $filter, ProjectFactory, ConstantFactory) {
+        function ($scope, $filter, $http, ProjectFactory, ConstantFactory) {
 
             // for convinces
             const constant = ConstantFactory;
@@ -130,6 +130,24 @@ angular.module("WebserviceApp.Controllers")
                 }
                 $scope.plot = {};
             };
+
+            /* Count the frequency of letters in the user submitted text. Ignore all
+             * other characters.  See CharFactory.js for the expected json object format
+             * */
+            $scope.webservice = function (userText) {
+                console.log("CALLED");
+                var userData = {text: userText};
+                var url      = "/api/letters";
+
+                $http.post(url, userData).then(
+                    function success(response) {
+                        ProjectFactory.setChartDataArrayFactory(response.data.data)
+                    },
+                    function error(response) {
+                        console.log(response.status, response.statusText);
+                    })
+            };
+
 
             /* =============== BUTTONS FUNCTIONS =============== */
 

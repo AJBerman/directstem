@@ -95,7 +95,7 @@
                     <scatter-plot data="activeProject"></scatter-plot>
                 </div>
 
-                <!-- report bar char # 1-->
+                <!-- report bar chart # 1-->
                 <div ng-switch-when="Reports">
                     <!-- run project btn-->
                     <button data-trigger="hover" data-placement="bottom"
@@ -110,6 +110,16 @@
 
                     <ws-log>Reports: {{activeProject.dataReport.length}}</ws-log>
                     <bar-chart data="activeProject"></bar-chart>
+                </div>
+
+
+                <div ng-switch-when="History">
+                    <form class="col-sm-6">
+                        <label for="web-service-string">Enter Text</label>
+                        <textarea ng-model="text" id="web-service-string" class="form-control" rows="1"></textarea>
+                        <button ng-click="webservice(text)" type="button" class="btn btn-primary">Submit</button>
+                    </form>
+                    <horizontal-bar-chart data="activeProject"></horizontal-bar-chart>
                 </div>
 
 
