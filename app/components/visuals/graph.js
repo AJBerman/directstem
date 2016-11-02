@@ -525,6 +525,8 @@ Graph.prototype.updateGraph = function () {
         .call(thisGraph.drag);
 
     newGs.append("circle")
+        .attr("r", 10)
+        .transition()
         .attr("r", String(final.NODE_RADIUS));
 
     newGs.append("text")

@@ -48,6 +48,8 @@ angular.module("WebserviceApp.Directives")
                         .selectAll("div")
                         .data(data)
                         .enter().append("div")
+                        .style("width", 0)
+                        .transition()
                         .style("width", function (d) {
                             return linearScale(d) + "px";
                         })

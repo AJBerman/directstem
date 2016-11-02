@@ -85,6 +85,8 @@ angular.module("WebserviceApp.Directives")
                 bar.append("rect")
                     .attr("transform", "translate(" + labelWidth + ", 0)")
                     .attr("height", barHeight)
+                    .attr("width", 1)
+                    .transition()
                     .attr("width", function (d) {
                         return scale(d.count);
                     });

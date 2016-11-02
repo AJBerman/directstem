@@ -14,7 +14,7 @@ angular.module("WebserviceApp.Directives")
 
             // setup x
             var x = d3.scale.linear()
-                .domain([0, 11])
+                .domain([0, 10])
                 .range([0, width]);
 
             var y = d3.scale.linear()
@@ -56,9 +56,7 @@ angular.module("WebserviceApp.Directives")
                     .data(graphData, key);
 
                 circles.enter().append("circle")
-                    .attr("r", function (d) {
-                        return d.r;
-                    })
+                    .attr("r",1)
                     .attr("cx", function (d) {
                         return x(d.x);
                     })
@@ -67,6 +65,10 @@ angular.module("WebserviceApp.Directives")
                     })
                     .attr("fill", function (d) {
                         return color(counter++);
+                    })
+                    .transition()
+                    .attr("r", function(d) {
+                        return d.r;
                     });
 
 
