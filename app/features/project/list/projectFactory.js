@@ -13,6 +13,9 @@ function Project(id, author, name, description) {
 
     // array of webservice "run performance" values
     this.dataReport = [];
+
+    // overview scatter plot demo data
+    this.scatterData = [];
 }
 
 /**
@@ -146,6 +149,15 @@ angular.module("WebserviceApp.Services")
                 var min        = 1, max = 100;
                 var randomData = Math.floor(Math.random() * (max - min + 1)) + min;
                 activeProject.dataReport.push(randomData);
+            },
+
+            generateScatterPlotDataFactory: function () {
+                activeProject.scatterData.push({
+                    x: Math.random() * 10,
+                    y: Math.random() * 10,
+                    r: 15,
+                    h: false
+                });
             }
         }
     });

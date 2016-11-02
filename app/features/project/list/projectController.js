@@ -27,6 +27,9 @@ angular.module("WebserviceApp.Controllers")
                 {name: "Analytic", url: ""},
                 {name: "History", url: ""},
             ];
+
+            $scope.number         = null;
+            $scope.plot           = {};
             $scope.selectedOption = undefined;
 
 
@@ -94,7 +97,7 @@ angular.module("WebserviceApp.Controllers")
             $scope.getOptionClass = function (option) {
 
                 if ($scope.selectedOption)
-                    return $scope.selectedOption.name == option.name ? constant.ACTIVE_CSS: "";
+                    return $scope.selectedOption.name == option.name ? constant.ACTIVE_CSS : "";
                 else
                     return "";
             };
@@ -119,6 +122,13 @@ angular.module("WebserviceApp.Controllers")
 
             $scope.loadGraph = function () {
                 ProjectFactory.loadGraph();
+            };
+
+            $scope.generateScatterPlotData = function () {
+                for (var i = 0; i < $scope.plot.number; i++) {
+                    ProjectFactory.generateScatterPlotDataFactory();
+                }
+                $scope.plot = {};
             };
 
             /* =============== BUTTONS FUNCTIONS =============== */

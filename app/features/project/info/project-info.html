@@ -81,7 +81,21 @@
                     <webservice-gui data="activeProject"></webservice-gui>
                 </div>
 
+                <!-- overview scatter plot data (demo) -->
+                <div ng-switch-when="Overview">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="exampleInputName2">Enter Number</label>
+                            <input  ng-model="plot.number" class="form-control" id="exampleInputName2" placeholder="20">
+                            <ws-log>{{plot.number}}</ws-log>
+                        </div>
+                        <button type="submit" class="btn btn-default" ng-click="generateScatterPlotData()">Test</button>
+                    </form>
 
+                    <scatter-plot data="activeProject"></scatter-plot>
+                </div>
+
+                <!-- report bar char # 1-->
                 <div ng-switch-when="Reports">
                     <!-- run project btn-->
                     <button data-trigger="hover" data-placement="bottom"
