@@ -13,7 +13,9 @@ angular.module("app.Services")
                 {letter: "B", count: 21},
                 {letter: "R", count: 0},
                 {letter: "N", count: 5}
-            ]
+            ],
+
+            scatter: []
         };
 
 
@@ -32,6 +34,15 @@ angular.module("app.Services")
 
             clearChartData: function () {
                 chart.data = [];
+            },
+
+            generateScatterPlotData: function () {
+                chart.scatter.push({
+                    x: Math.random() * 10,
+                    y: Math.random() * 10,
+                    r: 10,
+                    h: false
+                })
             }
         }
     });

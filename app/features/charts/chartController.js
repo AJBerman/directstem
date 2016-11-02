@@ -1,7 +1,9 @@
 angular.module("app.Controllers")
-    .controller("CharCtrl", function ($scope, $http, ChartFactory) {
+    .controller("ChartCtrl", function ($scope, $http, ChartFactory) {
 
         $scope.chart = ChartFactory.getChart();
+
+        $scope.numOfData = undefined;
 
         $scope.getChart = function () {
             return ChartFactory.getChart();
@@ -22,4 +24,11 @@ angular.module("app.Controllers")
                     console.log(response.status, response.statusText);
                 })
         };
+
+        $scope.generateRandomData = function () {
+
+            for (var i = 0; i < $scope.numOfData; i++) {
+                ChartFactory.generateScatterPlotData();
+            }
+        }
     });

@@ -2,32 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hello World</title>
+    <title>Scatter Plot</title>
 
     <!-- =============== CORE FILES =============== -->
     <link rel="stylesheet" href="styles/bootstrap/dist/css/bootstrap.css">
     <script src="scripts/angular.js"></script>
     <script src="scripts/d3.js"></script>
+    <script src="app.js"></script>
 
     <!-- =============== STYLE SHEET =============== -->
     <link rel="stylesheet" href="styles/app.css">
 
     <!-- =============== FEATURES =============== -->
-    <script src="app.js"></script>
-    <script src="features/charts/hBarChartDirective.js"></script>
-    <script src="features/charts/chartFactory.js"></script>
+    <script src="features/charts/scatterPlotDirectives.js"></script>
     <script src="features/charts/chartController.js"></script>
+    <script src="features/charts/chartFactory.js"></script>
 
 </head>
 <body class="container" ng-app="app" ng-controller="ChartCtrl">
 
-<form class="col-sm-6">
-    <label for="web-service-string">Enter Text</label>
-    <textarea ng-model="text" id="web-service-string" class="form-control" rows="10"></textarea>
-    <button ng-click="webservice(text)" type="button" class="btn btn-primary">Submit</button>
+
+<form class="form-inline">
+    <div class="form-group">
+        <label for="exampleInputName2">Enter Number</label>
+        <input type="number" ng-model="numOfData" class="form-control" id="exampleInputName2" placeholder="20">
+    </div>
+    <button type="submit" class="btn btn-default" ng-click="generateRandomData()">Test</button>
 </form>
 
-<horizontal-bar-chart data="chart"></horizontal-bar-chart>
+<scatter-plot data="chart"></scatter-plot>
 
 </body>
 </html>

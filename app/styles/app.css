@@ -53,3 +53,16 @@ text.value {
 .bar:hover {
     fill: #ff232d;
 }
+
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.highlight{
+    stroke: #000;
+    stroke-width: 4;
+}
