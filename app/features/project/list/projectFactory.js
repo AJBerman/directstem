@@ -130,7 +130,12 @@ angular.module("WebserviceApp.Services")
                     var edges = [];
 
                     activeProject.nodes.forEach(function (n) {
-                        nodes.push({id: n.id, x: n.x, y: n.y});
+                        nodes.push({
+                            id       : n.id,
+                            x        : n.x,
+                            y        : n.y,
+                            neighbors: n.neighbors
+                        });
                     });
                     activeProject.edges.forEach(function (e) {
                         edges.push({source: e.source, target: e.target});
@@ -150,6 +155,34 @@ angular.module("WebserviceApp.Services")
              * This allow other application to generate SVG*/
             clearGraph: function () {
                 activeProject.graph = {};
+            },
+
+            undoStateFact: function () {
+                var state = activeProject.graph.stack.pop();
+                console.log("state:", state);
+                var nodes = [];
+                var edges = [];
+
+                state.nodes.forEach(function (n) {
+                    nodes.push({
+                        id       : n.id,
+                        x        : n.x,
+                        y        : n.y,
+                        neighbors: n.neighbors
+                    });
+                });
+
+                state.edges.forEach(function (e) {
+                    edges.push({source: e.source, target: e.target});
+                });
+
+                activeProject.graph.nodes = nodes;
+                activeProject.graph.edges = edges;
+                activeProject.graph.updateGraph();
+
+                console.log("nodes:", nodes);
+                console.log("edges:", edges);
+                console.log("undoing the state");
             },
 
 

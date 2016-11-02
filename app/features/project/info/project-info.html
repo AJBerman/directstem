@@ -35,13 +35,6 @@
                 <div ng-switch-when="Graph">
                     <!-- =============== PROJECT GRAPH OPTIONS =============== -->
                     <div class="btn-group" role="group" aria-label="...">
-                        <!-- back btn-->
-                        <a class="btn btn-default hvr-icon-back"
-                           ng-href=" #project"
-                           data-trigger="hover" data-placement="bottom"
-                           title="Return to the project listings">
-                            Back &nbsp;
-                        </a>
                         <!-- reset btn -->
                         <button type="button"
                                 class="btn btn-default hvr-icon-sink-away"
@@ -66,30 +59,52 @@
                                 title="Load the the graph previous saved state">
                             Load &nbsp;
                         </button>
+
+                        <!-- go back one state btn -->
+                        <button class="btn btn-default hvr-icon-back"
+                                data-trigger="hover" data-placement="bottom"
+                                data-toggle="modal" data-target=".undo"
+                                title="Load the the graph previous saved state">
+                            Undo State
+                        </button>
+
                         <!-- run project btn-->
                         <button data-trigger="hover" data-placement="bottom"
                                 class="btn" ng-class="getBtnClass()"
                                 title="Start the project"
                                 ng-click="toggleRunBtn(run,stop);">
                             {{displayBtnText('Run Project')}}
-                            <i class="fa fa-cog fa-fw " ng-class="getIconClass()">
+                            <i class="fa fa-cog fa-fw "
+                               ng-class="getIconClass()">
                             </i>
                         </button>
-
                     </div>
+                    
+                    <!-- TODO: show the current "depth" of the web service-->
+                    <ol class="breadcrumb">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Library</a></li>
+                        <li class="active">Data</li>
+                    </ol>
+
                     <hr/>
                     <webservice-gui data="activeProject"></webservice-gui>
                 </div>
 
+
                 <!-- overview scatter plot data (demo) -->
                 <div ng-switch-when="Overview">
+
                     <form class="form-inline">
                         <div class="form-group">
                             <label for="exampleInputName2">Enter Number</label>
-                            <input  ng-model="plot.number" class="form-control" id="exampleInputName2" placeholder="20">
+                            <input ng-model="plot.number" class="form-control"
+                                   id="exampleInputName2" placeholder="20">
                             <ws-log>{{plot.number}}</ws-log>
                         </div>
-                        <button type="submit" class="btn btn-default" ng-click="generateScatterPlotData()">Test</button>
+                        <button type="submit" class="btn btn-default"
+                                ng-click="generateScatterPlotData()">Test
+                        </button>
                     </form>
 
                     <scatter-plot data="activeProject"></scatter-plot>
@@ -108,7 +123,8 @@
                     </button>
                     <hr/>
 
-                    <ws-log>Reports: {{activeProject.dataReport.length}}</ws-log>
+                    <ws-log>Reports: {{activeProject.dataReport.length}}
+                    </ws-log>
                     <bar-chart data="activeProject"></bar-chart>
                 </div>
 
@@ -116,10 +132,14 @@
                 <div ng-switch-when="History">
                     <form class="col-sm-6">
                         <label for="web-service-string">Enter Text</label>
-                        <textarea ng-model="text" id="web-service-string" class="form-control" rows="1"></textarea>
-                        <button ng-click="webservice(text)" type="button" class="btn btn-primary">Submit</button>
+                        <textarea ng-model="text" id="web-service-string"
+                                  class="form-control" rows="1"></textarea>
+                        <button ng-click="webservice(text)" type="button"
+                                class="btn btn-primary">Submit
+                        </button>
                     </form>
-                    <horizontal-bar-chart data="activeProject"></horizontal-bar-chart>
+                    <horizontal-bar-chart
+                            data="activeProject"></horizontal-bar-chart>
                 </div>
 
 
@@ -160,6 +180,12 @@
             <confirm-box target="load" title="Confirm Load"
                          update-fn="loadGraph()"
                          content="All unsaved changes will be lost when you load a graph. Please confirm.">
+            </confirm-box>
+
+            <!-- undo state -->
+            <confirm-box target="undo" title="Confirm Reset"
+                         update-fn="undoState()"
+                         content="Go Back One State">
             </confirm-box>
         </div>
 

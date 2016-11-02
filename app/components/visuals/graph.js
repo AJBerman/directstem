@@ -18,6 +18,7 @@ function Graph(svgIn, nodesIn, edgesIn) {
     thisGraph.svgG     = undefined;
     thisGraph.dragLine = undefined;
     thisGraph.drag     = undefined;
+    thisGraph.stack    = [];
 
     // State of the graph (selected nodes, links, etc..)
     thisGraph.state = {
@@ -237,6 +238,7 @@ Graph.prototype.circleMouseUp = function (d3node, d) {
 
         // if the edge is not a duplicate, add it to the graph
         if (!filtRes[0].length) {
+            mouseDownNode.neighbors.push(d);
             thisGraph.edges.push(newEdge);
             thisGraph.updateGraph();
         }
@@ -348,9 +350,10 @@ Graph.prototype.svgMouseUp = function () {
     if (state.graphMouseDown && d3.event.shiftKey) {
         var xyCord = d3.mouse(thisGraph.svgG.node());
         var node   = {
-            id: thisGraph.counter++,
-            x : xyCord[0],
-            y : xyCord[1]
+            id       : thisGraph.counter++,
+            x        : xyCord[0],
+            y        : xyCord[1],
+            neighbors: []
         };
 
         thisGraph.nodes.push(node);
@@ -375,7 +378,12 @@ Graph.prototype.saveState = function () {
     var edges = [];
 
     this.nodes.forEach(function (node) {
-        nodes.push({id: node.id, x: node.x, y: node.y})
+        nodes.push({
+            id       : node.id,
+            x        : node.x,
+            y        : node.y,
+            neighbors: node.neighbors
+        })
     });
 
     this.edges.forEach(function (edge) {
@@ -391,12 +399,47 @@ Graph.prototype.saveState = function () {
  * @returns {{nodes: *[], edges: *[]}}
  */
 Graph.prototype.defaultState = function () {
-    var nodes = [{title: "new concept", id: 0, x: 575, y: 100},
-        {title: "new concept", id: 1, x: 575, y: 100 + 200}];
-    var edges = [{source: nodes[1], target: nodes[0]}];
+    var node0 = {id: 0, x: 575, y: 100, neighbors: []};
+    var node1 = {id: 1, x: 575, y: 100 + 200, neighbors: []};
+    var nodes = [node0, node1];
+
+    node1.neighbors.push(node0);
+
+    var edge  = {source: node1, target: node0};
+    var edges = [edge];
 
     return {nodes: nodes, edges: edges};
 };
+
+Graph.prototype.dblclick = function (d3node, d) {
+    var thisGraph = this;
+
+    var _nodes = [];
+    var _edges = [];
+
+    d.neighbors.forEach(function (n) {
+        _edges.push({source: d, target: n});
+        _nodes.push(JSON.parse(JSON.stringify(n)));
+    });
+
+    _nodes.push(JSON.parse(JSON.stringify(d)));
+
+    var graphState = {
+        nodes  : thisGraph.nodes,
+        edges  : thisGraph.edges,
+        paths  : thisGraph.paths,
+        circles: thisGraph.circles
+    };
+
+    thisGraph.stack.push(graphState);
+    thisGraph.nodes = _nodes;
+    thisGraph.edges = _edges;
+
+    console.log("depth:", thisGraph.stack.length);
+    thisGraph.updateGraph();
+};
+
+
 /* =============== MAIN FUNCTION  =============== */
 
 /**
@@ -475,6 +518,9 @@ Graph.prototype.updateGraph = function () {
         })
         .on("mouseup", function (d) {
             thisGraph.circleMouseUp.call(thisGraph, d3.select(this), d);
+        })
+        .on("dblclick", function (d) {
+            thisGraph.dblclick.call(thisGraph, d3.select(this), d);
         })
         .call(thisGraph.drag);
 

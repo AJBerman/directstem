@@ -149,6 +149,11 @@ angular.module("WebserviceApp.Controllers")
             };
 
 
+            $scope.undoState = function() {
+                ProjectFactory.undoStateFact();
+            };
+
+
             /* =============== BUTTONS FUNCTIONS =============== */
 
             $scope.toggleRunBtn = function () {
