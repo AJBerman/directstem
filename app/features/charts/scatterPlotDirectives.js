@@ -14,11 +14,11 @@ angular.module("app.Directives")
 
             // setup x
             var x = d3.scale.linear()
-                .domain([0, 11])
+                .domain([0, 20])
                 .range([0, width]);
 
             var y = d3.scale.linear()
-                .domain([0, 10])
+                .domain([0, 20])
                 .range([height, 0]);
 
             var xAxis = d3.svg.axis()
@@ -41,7 +41,7 @@ angular.module("app.Directives")
                 .attr("class", "circle-g");
 
 
-            function draw() {
+            function renderScatterPlot() {
 
                 svg.append("g")
                     .attr("class", "x axis")
@@ -56,14 +56,16 @@ angular.module("app.Directives")
                     .data(graphData, key);
 
                 circles.enter().append("circle")
+                    .attr("r", 1)
+                    .transition()
                     .attr("r", function (d) {
                         return d.r;
                     })
                     .attr("cx", function (d) {
-                        return d.x * 70 + 10;
+                        return x(d.x);
                     })
                     .attr("cy", function (d) {
-                        return d.y * 40 + 10;
+                        return y(d.y);
                     })
                     .attr("fill", function (d) {
                         return color(counter++);
@@ -82,7 +84,7 @@ angular.module("app.Directives")
             }
 
             function key(d, index) {
-                return d.x + "," + d.y;
+                return [d.x, d.y];
             }
 
             function updateCursor() {
@@ -124,8 +126,8 @@ angular.module("app.Directives")
             }
 
 
-            draw();
-            /* =============== WATCH =============== */
+            renderScatterPlot();
+
             scope.$watch("data", function (newData, oldData) {
                 var userData = newData.scatter;
 
@@ -135,7 +137,7 @@ angular.module("app.Directives")
                         clearInterval(refreshPlot);
                     } else {
                         graphData.push(userData.shift());
-                        draw();
+                        renderScatterPlot();
                     }
 
                 }, 500);

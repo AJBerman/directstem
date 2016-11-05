@@ -38,9 +38,9 @@ angular.module("app.Services")
 
             generateScatterPlotData: function () {
                 chart.scatter.push({
-                    x: Math.random() * 10,
-                    y: Math.random() * 10,
-                    r: 10,
+                    x: Math.random() * 20,
+                    y: Math.random() * 20,
+                    r: 20,
                     h: false
                 })
             }
