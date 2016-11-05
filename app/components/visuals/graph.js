@@ -67,10 +67,10 @@ function Graph(svgIn, nodesIn, edgesIn) {
         .style('marker-end', 'url(#mark-end-arrow)');
 
     // a Selection of all <g> in the graph for <paths>
-    thisGraph.paths = svgG.append("g").selectAll("g");
+    thisGraph.paths = svgG.append("g").attr("class", "pathG").selectAll("g");
 
     // a Selection of all <g> in the graph for <circle>
-    thisGraph.circles = svgG.append("g").selectAll("g");
+    thisGraph.circles = svgG.append("g").attr("class", "circleG").selectAll("g");
 
     // Define Graph drag behavior
     thisGraph.drag = d3.behavior.drag()
@@ -228,17 +228,17 @@ Graph.prototype.circleMouseUp = function (d3node, d) {
         // Get all the edges from the graph that is the same as newEdge
         var filtRes = thisGraph.paths.filter(function (d) {
 
-            // if the reversed edge exist (a->b & b->a), replace the previous one
-            if (d.source === newEdge.target && d.target === newEdge.source) {
-                thisGraph.edges.splice(thisGraph.edges.indexOf(d), 1);
-            }
+            // // if the reversed edge exist (a->b & b->a), replace the previous one
+            // if (d.source === newEdge.target && d.target === newEdge.source) {
+            //     thisGraph.edges.splice(thisGraph.edges.indexOf(d), 1);
+            // }
 
             return d.source === newEdge.source && d.target === newEdge.target;
         });
 
         // if the edge is not a duplicate, add it to the graph
         if (!filtRes[0].length) {
-            mouseDownNode.neighbors.push(d);
+            mouseDownNode.neighbors.push(copyObject(d));
             thisGraph.edges.push(newEdge);
             thisGraph.updateGraph();
         }
@@ -403,9 +403,9 @@ Graph.prototype.defaultState = function () {
     var node1 = {id: 1, x: 575, y: 100 + 200, neighbors: []};
     var nodes = [node0, node1];
 
-    node1.neighbors.push(node0);
+    node0.neighbors.push(node1);
 
-    var edge  = {source: node1, target: node0};
+    var edge  = {source: node0, target: node1};
     var edges = [edge];
 
     return {nodes: nodes, edges: edges};
@@ -417,28 +417,54 @@ Graph.prototype.dblclick = function (d3node, d) {
     var _nodes = [];
     var _edges = [];
 
+    // add all the nodes neighbor to a list
     d.neighbors.forEach(function (n) {
-        _edges.push({source: d, target: n});
-        _nodes.push(JSON.parse(JSON.stringify(n)));
+        _nodes.push(copyObject(n));
     });
+    // add d to the front of the list
+    _nodes.unshift(copyObject(d));
 
-    _nodes.push(JSON.parse(JSON.stringify(d)));
+    // create and edge between d (which is at the front of the list) and its neighbors
+    for(var i = 1; i < _nodes.length; i++) {
+        _edges.push({source: _nodes[0], target:_nodes[i]})
+    }
 
+    // save the current state of the graph
     var graphState = {
         nodes  : thisGraph.nodes,
         edges  : thisGraph.edges,
-        paths  : thisGraph.paths,
-        circles: thisGraph.circles
     };
-
     thisGraph.stack.push(graphState);
+
+    // start the graph of nodes of nodes
     thisGraph.nodes = _nodes;
     thisGraph.edges = _edges;
-
-    console.log("depth:", thisGraph.stack.length);
     thisGraph.updateGraph();
+
 };
 
+Graph.prototype.compositionBack= function () {
+    var thisGraph = this;
+
+    if (thisGraph.stack.length > 0) {
+        var previousState    = thisGraph.stack.pop();
+        thisGraph.nodes      = previousState.nodes;
+        thisGraph.edges      = previousState.edges;
+        thisGraph.parentNode = previousState.parentNode;
+        thisGraph.updateGraph();
+    } else {
+        console.error("Cannot go back further");
+    }
+};
+
+
+/**
+ * @return Node
+ *   Copy an object using JSON parse and stringify
+ */
+function copyObject(object) {
+    return JSON.parse(JSON.stringify(object));
+}
 
 /* =============== MAIN FUNCTION  =============== */
 
@@ -455,7 +481,7 @@ Graph.prototype.updateGraph = function () {
     // update the paths : paths = ...selectAll("g")
     thisGraph.paths = thisGraph.paths
         .data(thisGraph.edges, function (d) {
-            return String(d.source.id) + "+" + String(d.target.id);
+            return [d.source.id, d.target.id];
         });
 
     // For convinces: the update selection
