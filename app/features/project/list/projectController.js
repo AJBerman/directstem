@@ -153,6 +153,9 @@ angular.module("WebserviceApp.Controllers")
                 ProjectFactory.undoStateFact();
             };
 
+            $scope.composition = function() {
+                ProjectFactory.compositionFF();
+            };
 
             /* =============== BUTTONS FUNCTIONS =============== */
 

@@ -3,9 +3,15 @@
  * */
 /* =============== GLOBAL VARIABLES AND SETUP =============== */
 
+var idCounter = incrementer();
+function incrementer() {
+    var counter = 0;
 
+    return function () {
+        return counter++;
+    }
+}
 function Graph(svgIn, nodesIn, edgesIn) {
-    this.counter  = nodesIn ? nodesIn.length : 0;
     // for clarity: typing this over and over can be confusing
     var thisGraph = this;
 
@@ -238,7 +244,7 @@ Graph.prototype.circleMouseUp = function (d3node, d) {
 
         // if the edge is not a duplicate, add it to the graph
         if (!filtRes[0].length) {
-            mouseDownNode.neighbors.push(copyObject(d));
+            mouseDownNode.neighbors.push(d);
             thisGraph.edges.push(newEdge);
             thisGraph.updateGraph();
         }
@@ -350,10 +356,12 @@ Graph.prototype.svgMouseUp = function () {
     if (state.graphMouseDown && d3.event.shiftKey) {
         var xyCord = d3.mouse(thisGraph.svgG.node());
         var node   = {
-            id       : thisGraph.counter++,
-            x        : xyCord[0],
-            y        : xyCord[1],
-            neighbors: []
+            id              : idCounter(),
+            x               : xyCord[0],
+            y               : xyCord[1],
+            neighbors       : [],
+            compositionNodes: [],
+            compositionEdges: [],
         };
 
         thisGraph.nodes.push(node);
@@ -373,21 +381,24 @@ Graph.prototype.svgMouseUp = function () {
  * the state of the graph.
  * @returns {{nodes: Array, edges: Array}}
  */
-Graph.prototype.saveState = function () {
+Graph.prototype.currentState = function () {
     var nodes = [];
     var edges = [];
 
     this.nodes.forEach(function (node) {
-        nodes.push({
-            id       : node.id,
-            x        : node.x,
-            y        : node.y,
-            neighbors: node.neighbors
-        })
+        nodes.push(copyObject(node));
     });
 
-    this.edges.forEach(function (edge) {
-        edges.push({source: edge.source, target: edge.target});
+    nodes.forEach(function (node) {
+        node.neighbors.forEach(function (n) {
+            var special;
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].id == n.id) {
+                    special = nodes[i];
+                    edges.push({source: node, target: special});
+                }
+            }
+        });
     });
 
     return {nodes: nodes, edges: edges};
@@ -399,8 +410,22 @@ Graph.prototype.saveState = function () {
  * @returns {{nodes: *[], edges: *[]}}
  */
 Graph.prototype.defaultState = function () {
-    var node0 = {id: 0, x: 575, y: 100, neighbors: []};
-    var node1 = {id: 1, x: 575, y: 100 + 200, neighbors: []};
+    var node0 = {
+        id              : idCounter(),
+        x               : 575,
+        y               : 100,
+        neighbors       : [],
+        compositionNodes: [],
+        compositionEdges: [],
+    };
+    var node1 = {
+        id              : idCounter(),
+        x               : 575,
+        y               : 100 + 200,
+        neighbors       : [],
+        compositionNodes: [],
+        compositionEdges: [],
+    };
     var nodes = [node0, node1];
 
     node0.neighbors.push(node1);
@@ -409,52 +434,6 @@ Graph.prototype.defaultState = function () {
     var edges = [edge];
 
     return {nodes: nodes, edges: edges};
-};
-
-Graph.prototype.dblclick = function (d3node, d) {
-    var thisGraph = this;
-
-    var _nodes = [];
-    var _edges = [];
-
-    // add all the nodes neighbor to a list
-    d.neighbors.forEach(function (n) {
-        _nodes.push(copyObject(n));
-    });
-    // add d to the front of the list
-    _nodes.unshift(copyObject(d));
-
-    // create and edge between d (which is at the front of the list) and its neighbors
-    for(var i = 1; i < _nodes.length; i++) {
-        _edges.push({source: _nodes[0], target:_nodes[i]})
-    }
-
-    // save the current state of the graph
-    var graphState = {
-        nodes  : thisGraph.nodes,
-        edges  : thisGraph.edges,
-    };
-    thisGraph.stack.push(graphState);
-
-    // start the graph of nodes of nodes
-    thisGraph.nodes = _nodes;
-    thisGraph.edges = _edges;
-    thisGraph.updateGraph();
-
-};
-
-Graph.prototype.compositionBack= function () {
-    var thisGraph = this;
-
-    if (thisGraph.stack.length > 0) {
-        var previousState    = thisGraph.stack.pop();
-        thisGraph.nodes      = previousState.nodes;
-        thisGraph.edges      = previousState.edges;
-        thisGraph.parentNode = previousState.parentNode;
-        thisGraph.updateGraph();
-    } else {
-        console.error("Cannot go back further");
-    }
 };
 
 
@@ -481,7 +460,7 @@ Graph.prototype.updateGraph = function () {
     // update the paths : paths = ...selectAll("g")
     thisGraph.paths = thisGraph.paths
         .data(thisGraph.edges, function (d) {
-            return [d.source.id, d.target.id];
+            return d.source.id + "+" +  d.target.id;
         });
 
     // For convinces: the update selection
@@ -515,7 +494,7 @@ Graph.prototype.updateGraph = function () {
     // update the circle selection
     thisGraph.circles = thisGraph.circles
         .data(thisGraph.nodes, function (d) {
-            return d.id;
+            return String(d.id);
         });
 
     // update all current circles on the graph
@@ -544,9 +523,6 @@ Graph.prototype.updateGraph = function () {
         })
         .on("mouseup", function (d) {
             thisGraph.circleMouseUp.call(thisGraph, d3.select(this), d);
-        })
-        .on("dblclick", function (d) {
-            thisGraph.dblclick.call(thisGraph, d3.select(this), d);
         })
         .call(thisGraph.drag);
 

@@ -68,6 +68,12 @@
                             Undo State
                         </button>
 
+                        <!-- go back one state btn -->
+                        <button class="btn btn-default hvr-icon-back"
+                                data-toggle="modal" data-target=".composition-view">
+                            Composition View
+                        </button>
+
                         <!-- run project btn-->
                         <button data-trigger="hover" data-placement="bottom"
                                 class="btn" ng-class="getBtnClass()"
@@ -78,6 +84,7 @@
                                ng-class="getIconClass()">
                             </i>
                         </button>
+
                     </div>
 
                     <!-- TODO: show the current "depth" of the web service-->
@@ -88,6 +95,7 @@
                     </ol>
 
                     <hr/>
+
                     <webservice-gui data="activeProject"></webservice-gui>
                 </div>
 
@@ -186,6 +194,11 @@
             <confirm-box target="undo" title="Confirm Reset"
                          update-fn="undoState()"
                          content="Go Back One State">
+            </confirm-box>
+
+            <confirm-box target="composition-view" title="Confirm Composition View"
+                         update-fn="composition()"
+                         content="Composition View">
             </confirm-box>
         </div>
 
