@@ -14,6 +14,7 @@ public class Node {
 	private Graph context; //used for building the network. Truly private.
 	private boolean fullyInitialized; //are all of the neighbors in our edges initialized?
 	public Node(JsonObject json, Graph context) {
+		in = new HashSet<Edge>();
 		fullyInitialized = true;
 		this.context = context;
 		if(json.has("id")) this.id=json.get("id").getAsString();
@@ -23,7 +24,7 @@ public class Node {
 				JsonObject param = para.getAsJsonObject();
 				if(param.has("from")) {
 					RealEdge temp = new RealEdge();
-					Node from = context.findNodeById(param.get("from").getAsString().split(".")[0]);
+					Node from = context.findNodeById(param.get("from").getAsString().split("\\.")[0]);
 					if(from == null) {
 						//we haven't parsed this node yet, or invalid node. We can always generate the from later, when we need it.
 						fullyInitialized = false;
@@ -50,7 +51,7 @@ public class Node {
 				if(e.isRealEdge()) {
 					RealEdge re = (RealEdge) e;
 					if( re.getFrom() == null) {
-						re.setFrom(context.findNodeById(re.getOutString().split(".")[0]));
+						re.setFrom(context.findNodeById(re.getOutString().split("\\.")[0]));
 						if(re.getFrom() == null) {
 							fullyInitialized = false; //bah, still not there! Probably gonna crash soonish.
 						}

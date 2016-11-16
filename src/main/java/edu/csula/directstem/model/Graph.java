@@ -17,6 +17,7 @@ public class Graph extends Node {
 	private Set<Node> outs;
 	public Graph(JsonObject json, Graph context) throws Exception {
 		super(json, context);
+		nodes = new HashSet<Node>();
 		if(json.has("timestamp")) this.timestamp = new SimpleDateFormat("yyy-mm-dd").parse(json.get("timestamp").getAsString());
 		if(json.has("name")) this.name = json.get("name").getAsString();
 		if(json.has("nodes")) {
@@ -34,6 +35,7 @@ public class Graph extends Node {
 				}
 			}
 		}
+		outs = new HashSet<Node>();
 		if(json.has("ends")) {
 			for(JsonElement endId : json.get("ends").getAsJsonArray()) {
 				outs.add(this.findNodeById(endId.getAsString()));

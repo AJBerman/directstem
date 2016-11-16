@@ -34,15 +34,15 @@ public class ServiceNode extends Node {
 			if(e.isRealEdge()) {
 				RealEdge re = (RealEdge) e;
 				JsonElement js = re.getFrom().getResult();
-				String[] out = re.getOutString().split(".");
+				String[] out = re.getOutString().split("\\.");
 				out = Arrays.copyOfRange(out, 1, out.length); //drop the first one, because it's the from node.
 				for( String o : out ) {
 					//we're not accessing any arrays here.
 					js = js.getAsJsonObject().get(o);
-					String[] arrs = o.split("[");
+					String[] arrs = o.split("\\[");
 					if(arrs.length > 1) {
 						for (String arr : arrs) {
-							String index = arr.split("]")[0]; //get JUST the number.
+							String index = arr.split("\\]")[0]; //get JUST the number.
 							js = js.getAsJsonArray().get(Integer.parseInt(index));
 						}
 					}
