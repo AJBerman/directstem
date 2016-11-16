@@ -11,14 +11,67 @@ function incrementer() {
         return counter++;
     }
 }
-function Graph(svgIn, nodesIn, edgesIn) {
+
+function convertState(nodeArray) {
+    var _nodes  = [], _edges = [];
+    var nodeSet = getNodeSet(nodeArray);
+
+    for (var i = 0; i < nodeArray.length; i++) {
+        _nodes.push(getNode(nodeSet, nodeArray[i]));
+    }
+
+    for (i = 0; i < _nodes.length; i++) {
+        var current   = _nodes[i];
+        var neighbors = current.neighbors;
+
+        for (var k = 0; k < neighbors.length; k++) {
+            _edges.push({
+                source: getNode(nodeSet, current),
+                target: getNode(nodeSet, neighbors[k])
+            })
+        }
+    }
+
+    return {nodes: _nodes, edges: _edges};
+}
+
+function getNode(set, node) {
+    for (var i = 0; i < set.length; i++) {
+        if (set[i].id == node.id) {
+            return set[i];
+        }
+    }
+    console.error("getNode function error");
+}
+function getNodeSet(nodeArray) {
+    var nodeSet = [];
+
+    for (var i = 0; i < nodeArray.length; i++) {
+        if (!contain(nodeSet, nodeArray[i])) {
+            nodeSet.push(nodeArray[i]);
+        }
+    }
+    return nodeSet;
+}
+
+function contain(array, item) {
+    for (var i = 0; i < array.length; i++) {
+        if (array[i].id == item.id) {
+            return true;
+        }
+    }
+    return false;
+}
+function Graph(svgIn, nodesIn) {
     // for clarity: typing this over and over can be confusing
     var thisGraph = this;
 
+    var cs = convertState(nodesIn);
+
     /* *** Graph variables *** */
     thisGraph.svg      = svgIn;
-    thisGraph.nodes    = nodesIn || [];
-    thisGraph.edges    = edgesIn || [];
+    thisGraph.nodes    = cs.nodes || [];
+    thisGraph.edges    = cs.edges || [];
     thisGraph.paths    = undefined;
     thisGraph.circles  = undefined;
     thisGraph.svgG     = undefined;
@@ -360,8 +413,7 @@ Graph.prototype.svgMouseUp = function () {
             x               : xyCord[0],
             y               : xyCord[1],
             neighbors       : [],
-            compositionNodes: [],
-            compositionEdges: [],
+            compositionNodes: []
         };
 
         thisGraph.nodes.push(node);
@@ -379,61 +431,41 @@ Graph.prototype.svgMouseUp = function () {
 /**
  * Return a copy of the state of the graph. Can be used to repopulate the
  * the state of the graph.
- * @returns {{nodes: Array, edges: Array}}
  */
 Graph.prototype.currentState = function () {
     var nodes = [];
-    var edges = [];
 
     this.nodes.forEach(function (node) {
         nodes.push(copyObject(node));
     });
 
-    nodes.forEach(function (node) {
-        node.neighbors.forEach(function (n) {
-            var special;
-            for (var i = 0; i < nodes.length; i++) {
-                if (nodes[i].id == n.id) {
-                    special = nodes[i];
-                    edges.push({source: node, target: special});
-                }
-            }
-        });
-    });
-
-    return {nodes: nodes, edges: edges};
+    return {nodes: nodes};
 };
 
 
 /**
  * Return a "start-up" graph. Default graph.
- * @returns {{nodes: *[], edges: *[]}}
  */
 Graph.prototype.defaultState = function () {
     var node0 = {
         id              : idCounter(),
-        x               : 575,
+        x               : 575 - 200,
         y               : 100,
         neighbors       : [],
-        compositionNodes: [],
-        compositionEdges: [],
+        compositionNodes: []
     };
     var node1 = {
         id              : idCounter(),
         x               : 575,
-        y               : 100 + 200,
+        y               : 100,
         neighbors       : [],
-        compositionNodes: [],
-        compositionEdges: [],
+        compositionNodes: []
     };
-    var nodes = [node0, node1];
+
+    var nodes = [node0, node1 ];
 
     node0.neighbors.push(node1);
-
-    var edge  = {source: node0, target: node1};
-    var edges = [edge];
-
-    return {nodes: nodes, edges: edges};
+    return {nodes: nodes, parentNode: null, test: true};
 };
 
 
@@ -460,7 +492,7 @@ Graph.prototype.updateGraph = function () {
     // update the paths : paths = ...selectAll("g")
     thisGraph.paths = thisGraph.paths
         .data(thisGraph.edges, function (d) {
-            return d.source.id + "+" +  d.target.id;
+            return d.source.id + "+" + d.target.id;
         });
 
     // For convinces: the update selection

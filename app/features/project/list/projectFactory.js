@@ -9,7 +9,6 @@ function Project(id, author, name, description) {
 
     this.graph = {};
     this.nodes = undefined;
-    this.edges = undefined;
 
     // array of webservice "run performance" values
     this.dataReport = [];
@@ -18,7 +17,7 @@ function Project(id, author, name, description) {
     this.scatterData = [];
 
     // Keep track of composition level (nodes of nodes)
-    this.history = {stack: []};
+    this.history = {states: []};
 
     /* Default chart demo data*/
     this.chart = {
@@ -52,10 +51,7 @@ angular.module("WebserviceApp.Services")
 
         var projects = [
             new Project(counter++, "adam", "foobar", "my description #1"),
-            new Project(counter++, "james", "hello_world", "my description #2"),
-            new Project(counter++, "james", "python_is_cool", "my description #2"),
-            new Project(counter++, "luis", "fizz buzz", "my description #3"),
-            new Project(counter++, "luis", "A* search", "my description #3"),
+            new Project(counter++, "james", "hello_world", "my description #2"), new Project(counter++, "james", "python_is_cool", "my description #2"), new Project(counter++, "luis", "fizz buzz", "my description #3"), new Project(counter++, "luis", "A* search", "my description #3"),
             new Project(counter++, "luis", "Dijkstra Search", "my description #3"),
             new Project(counter++, "nelson", "depth first search", "my description #4"),
             new Project(counter++, "nelson", "breadth first search", "my description #4"),
@@ -69,24 +65,69 @@ angular.module("WebserviceApp.Services")
             nodes.forEach(function (n) {
                 if (n.id == node.id) {
                     result = n;
-                    console.log("FOUND", result);
                 }
             });
             return result;
         }
 
-        function generateCompositionEdges(compositionNodes) {
-            var result = [];
-            for (var i = 0; i < compositionNodes.length; i++) {
-                var currentNode = compositionNodes[i];
 
-                for (var k = 0; k < currentNode.neighbors.length; k++) {
-                    var currentNeighbor = currentNode.neighbors[k];
-                    result.push({source: currentNode, target: currentNeighbor});
+        function recursiveSave(_states) {
+            /* get a copy of the states */
+            var states = [];
+            _states.forEach(function (state) {
+                states.push(JSON.parse(JSON.stringify(state)));
+            });
+
+            console.log("num of state:", states.length);
+
+            /* get the most recent parent node */
+            var parent = states[states.length - 1].parentNode;
+
+            for (var i = states.length - 1; i >= 0; i--) {
+
+                console.log("states[]", i,  states[i]);
+
+                if (i == states.length - 1) {
+                    parent.compositionNodes = states[i].nodes;
+                    console.log("initial parent:", parent);
+                } else {
+                    var findParent = findNode(states[i].nodes, parent);
+                    console.log("parent:", parent);
+
+                    findParent.compositionNodes = [];
+                    parent.compositionNodes.forEach(function (node) {
+                        findParent.compositionNodes.push(JSON.parse(JSON.stringify(node)));
+                    });
+
+                    console.log("find parent:", findParent);
+
+                    parent = states[i].parentNode;
+                    console.log("new parent:", parent, i);
+
+                    if (parent == null) {
+                        var nodes = [];
+                        states[i].nodes.forEach(function(node) {
+                            nodes.push(JSON.parse(JSON.stringify(node)));
+                        });
+
+                        for (var k = 0; k < nodes.length; k++) {
+                            if (nodes[k].id == findParent.id) {
+                                nodes[k] = findParent;
+                                console.log("nodes[k]", nodes[k]);
+                            }
+                        }
+                        console.log("return state:", {
+                            nodes     : nodes,
+                            parentNode: null
+                        });
+
+                        return {nodes: nodes, parentNode: null};
+                    } else {
+                        parent.compositionNodes = states[i].nodes;
+                    }
                 }
             }
-
-            return result;
+            console.error("ERROR recursive save");
         }
 
         return {
@@ -129,98 +170,92 @@ angular.module("WebserviceApp.Services")
 
             // save whatever graph MAIN is displaying onto the current project
             saveGraph: function () {
-                var history      = activeProject.history.stack;
-                var currentState = history[0];
-                var parentNode   = currentState.parentNode;
+                var history = activeProject.history;
 
+                /* retrieve the previous state parent node */
+                var previousState = history.states.length == 1 ? history.states[0] : history.states[history.states.length - 2];
+                var currentState  = history.states[history.states.length - 1];
+                var parentNode    = currentState.parentNode;
                 console.log("parentNode:", parentNode);
 
                 var savedState = activeProject.graph.currentState();
-                console.log("nodesL", history[history.length - 1].nodes);
+
                 if (parentNode) {
-                    parentNode                  = findNode(history[history.length - 1].nodes, parentNode);
-                    parentNode.compositionNodes = savedState.nodes;
-                    parentNode.compositionEdges = generateCompositionEdges(parentNode.compositionNodes);
+                    var newParentNode = findNode(previousState.nodes, parentNode);
+                    console.log("new parent node:", newParentNode);
 
-                    console.log("parent node:", parentNode);
+                    currentState.nodes      = activeProject.graph.currentState().nodes;
+                    currentState.parentNode = newParentNode;
 
-                    console.log("ce:", parentNode.compositionEdges);
+                    console.log("current state:", currentState);
+                    console.log("history:", history);
 
-                    activeProject.nodes = history[history.length - 1].nodes;
-                    activeProject.edges = history[history.length - 1].edges;
+                    var result                                = recursiveSave(history.states);
+                    activeProject.nodes                       = result.nodes;
+                    history.states[history.states.length - 1] = currentState;
 
-                    console.log(history[history.length - 1].nodes);
+                    console.log("result state:", result);
+                    console.log("result history:", history);
                 } else {
+                    history.states      = [savedState];
                     activeProject.nodes = savedState.nodes;
-                    activeProject.edges = savedState.edges;
                 }
-
-
-                // "push" state to history stack for the current view
             },
 
             // clear out the main graph, start over. is an empty graph now
             resetGraph: function () {
+                // clear the svg canvas
                 var svg = d3.select(".svg-main");
                 svg.selectAll("*").remove();
 
+                /* retrieve the default nodes */
                 var defaultState = Graph.prototype.defaultState();
                 var nodes        = defaultState.nodes;
-                var edges        = defaultState.edges;
 
+                /* init history list for the current project */
+                var history    = activeProject.history;
+                history.states = [defaultState];
+                console.log("history @ default:", history);
 
-                // "push" state to history stack for the current view
-                activeProject.history.stack = [defaultState];
-                activeProject.graph         = new Graph(svg, nodes, edges);
+                /* display graph */
+                activeProject.graph = new Graph(svg, nodes);
                 activeProject.graph.updateGraph();
             },
 
             // load whatever graph the current project contains
             loadGraph: function () {
+                /* clear the svg canvas */
                 var svg = d3.select(".svg-main");
                 svg.selectAll("*").remove();
 
+                /* load project nodes otherwise load a default state */
                 if (activeProject.nodes) {
+                    /* create a copy of project's nodes */
                     var nodes = [];
-                    var edges = [];
-
                     activeProject.nodes.forEach(function (n) {
                         nodes.push(JSON.parse(JSON.stringify(n)));
                     });
-                    nodes.forEach(function (node) {
-                        node.neighbors.forEach(function (n) {
-                            var special;
-                            for (var i = 0; i < nodes.length; i++) {
-                                if (nodes[i].id == n.id) {
-                                    special = nodes[i];
-                                    edges.push({source: node, target: special});
-                                }
-                            }
-                        });
-                    });
 
+                    /* create a copy of each nodes's composition nodes */
                     nodes.forEach(function (node) {
                         var cn = [];
                         for (var i = 0; i < node.compositionNodes.length; i++) {
                             cn.push(JSON.parse(JSON.stringify(node.compositionNodes[i])));
                         }
                         node.compositionNodes = cn;
-
-                        var ce = generateCompositionEdges(cn);
-                        node.compositionEdges = ce;
                     });
 
-                    activeProject.graph = new Graph(svg, nodes, edges);
-                    activeProject.graph.updateGraph();
+                    /*  init history list for the current view */
+                    var history    = activeProject.history;
+                    history.states = [{nodes: nodes}];
 
-                    // "push" state to history stack for the current view
-                    activeProject.history.stack = [{
-                        nodes: nodes,
-                        edges: edges
-                    }];
+                    /* display the graph */
+                    activeProject.graph = new Graph(svg, nodes);
+                    activeProject.graph.updateGraph();
 
                     console.log("loading a previous graph");
                 } else {
+                    /* load a default graph */
                     this.resetGraph();
                     console.log("no data, loading a default graph");
                 }
@@ -233,53 +268,55 @@ angular.module("WebserviceApp.Services")
             },
 
             undoStateFact: function () {
-                var history = activeProject.history.stack;
+                var history = activeProject.history.states;
 
-                // stack need to have at least one state
+                /* don't undo if the user only have one stack of history state
+                 * because it will delete all the views!*/
                 if (history.length <= 1) return;
 
-                history.shift();
-
+                /* remove the current state from history */
+                history.pop();
                 var svg = d3.select(".svg-main");
                 svg.selectAll("*").remove();
 
-                activeProject.graph = new Graph(svg, history[0].nodes, history[0].edges);
+                /* display the current view */
+                activeProject.graph = new Graph(svg, history[history.length - 1].nodes);
                 activeProject.graph.updateGraph();
             },
 
 
             compositionFF: function () {
-
-                // ensure that the user selectd a node first
+                /* ensure that the user selected a node first */
                 if (!activeProject.graph.state.selectedNode) {
                     console.error("Composition View: need to select a node first");
                     return;
                 }
 
-                var history      = activeProject.history.stack;
+                /* the currently highlighted node */
                 var selectedNode = activeProject.graph.state.selectedNode;
 
-                selectedNode.compositionNodes = selectedNode.compositionNodes || [];
+                /* update the current state of history */
+                var history           = activeProject.history;
+                var currentParentNode = history.states[history.states.length - 1].parentNode;
+                history.states.pop();
+                var currentState        = activeProject.graph.currentState();
+                currentState.parentNode = currentParentNode;
+                history.states.push(currentState);
 
-                var _nodes = selectedNode.compositionNodes.slice();
-
-                var _edges = selectedNode.compositionEdges.slice();
-
-                var currentState = activeProject.graph.currentState();
-                history.shift();
-                history.unshift(currentState);
-
+                /* add a state for the composition nodes (if any) */
                 var newState = {
-                    parentNode: selectedNode,
-                    nodes     : _nodes,
-                    edges     : _edges
+                    parentNode: JSON.parse(JSON.stringify(selectedNode)),
+                    nodes     : selectedNode.compositionNodes.slice()
                 };
-                activeProject.history.stack.unshift(newState);
+                history.states.push(newState);
+                console.log("history:", history);
 
+                /* clear the svg canvas */
                 var svg = d3.select(".svg-main");
                 svg.selectAll("*").remove();
 
-                activeProject.graph = new Graph(svg, history[0].nodes, history[0].edges);
+                /* display the composition nodes (if any) */
+                activeProject.graph = new Graph(svg, history.states[history.states.length - 1].nodes);
                 activeProject.graph.updateGraph();
             },
 
