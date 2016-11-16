@@ -15,7 +15,8 @@ import com.google.gson.Gson;
 
 @Path("/numbers")
 public class Example  {
-
+	
+	//ex: http://localhost:8080/webservice/v1/numbers/random?num=10
     @GET
     @Path("/random")
     @Produces(MediaType.APPLICATION_JSON)
