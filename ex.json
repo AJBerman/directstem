@@ -1,0 +1,45 @@
+{
+	"type":"graph",
+    "timestamp":"1999-10-23",
+    "name":"A nice name",
+    "id":"a_urlsafe_name",
+    "ends": [
+        "nodeadd1"
+    ],
+    "nodes": [
+        {
+			"type":"service",
+            "id":"nodeadd1",
+            "url":"http://localhost:8080/webservice/v1/numbers/add",
+            "params": [
+                {
+                	"type":"const",
+                    "name":"num1",
+                    "value":5
+                },
+                {
+                	"type":"real",
+                    "name":"num2",
+                    "from":"nodeadd2"
+                }
+            ]
+        },
+        {
+			"type":"service",
+           	"id":"nodeadd2",
+            "url":"http://localhost:8080/webservice/v1/numbers/mul",
+            "params": [
+                {
+                	"type":"const",
+                    "name":"num1",
+                    "value":3
+                },
+                {
+                	"type":"const",
+                    "name":"num2",
+                    "value":5
+                }
+            ]
+        }
+    ]
+} 

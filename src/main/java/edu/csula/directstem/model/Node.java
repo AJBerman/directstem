@@ -7,6 +7,7 @@ import java.util.Set;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 public class Node {
 	private Set<Edge> in;
@@ -22,7 +23,7 @@ public class Node {
 			JsonArray params = json.get("params").getAsJsonArray();
 			for(JsonElement para : params) {
 				JsonObject param = para.getAsJsonObject();
-				if(param.has("from")) {
+				if(param.get("type").getAsString().equals("real")) {
 					RealEdge temp = new RealEdge();
 					Node from = context.findNodeById(param.get("from").getAsString().split("\\.")[0]);
 					if(from == null) {
@@ -38,11 +39,23 @@ public class Node {
 				} else {
 					//it's a const edge.
 					ConstEdge temp = new ConstEdge();
+					temp.setInString(param.get("name").getAsString());
 					temp.setConstVal(param.get("value").getAsString());
 					in.add(temp);
 				}
 			}
 		}
+	}
+	public JsonObject toJson() {
+		JsonObject js = new JsonObject();
+		js.add("id", new JsonPrimitive(this.id));
+		if(!in.isEmpty()) {
+			js.add("params", new JsonArray());
+			for(Edge e : in) {
+				((JsonArray)js.get("params")).add(e.toJson());
+			}
+		}
+		return js;
 	}
 	public Set<Edge> getIn() {
 		if(!fullyInitialized) {

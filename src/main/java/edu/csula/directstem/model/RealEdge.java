@@ -1,5 +1,7 @@
 package edu.csula.directstem.model;
 
+import com.google.gson.JsonObject;
+
 public class RealEdge extends Edge {
 	private Node from;
 	private String outString;
@@ -14,6 +16,15 @@ public class RealEdge extends Edge {
 		this.setTo(to);
 		this.outString = outString;
 		this.setInString(inString);
+	}
+	@Override
+	public JsonObject toJson() {
+		JsonObject js = super.toJson();
+		js.addProperty("type", "real");
+		js.addProperty("from", outString); 
+		//no separate "from" added
+		//the id of the from node is encoded in the outstring anyway.
+		return js;
 	}
 	public Node getFrom() {
 		return from;

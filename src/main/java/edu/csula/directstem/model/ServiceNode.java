@@ -5,10 +5,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -17,12 +19,20 @@ public class ServiceNode extends Node {
 	private String webservice;
 	public ServiceNode(JsonObject json, Graph context) throws Exception {
 		super(json,context);
+		this.webservice = json.get("url").getAsString();
 	}
 	public String getWebservice() {
 		return webservice;
 	}
 	public void setWebservice(String webservice) {
 		this.webservice = webservice;
+	}
+	@Override
+	public JsonObject toJson() {
+		JsonObject js = super.toJson();
+		js.addProperty("type", "graph");
+		js.addProperty("url",webservice);
+		return js;
 	}
 	@Override
 	public JsonElement getResult() {
@@ -61,6 +71,7 @@ public class ServiceNode extends Node {
 			temp = temp.substring(0, temp.length()-1);
 		}
 		URL url = new URL(temp);
+		//System.out.println("final URL: " + url);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
 		conn.setRequestProperty("Accept", "application/json");

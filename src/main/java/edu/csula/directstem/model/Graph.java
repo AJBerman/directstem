@@ -9,6 +9,7 @@ import java.util.Set;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 public class Graph extends Node {
 	private Set<Node> nodes;
@@ -23,10 +24,11 @@ public class Graph extends Node {
 		if(json.has("nodes")) {
 			for(JsonElement nod : json.get("nodes").getAsJsonArray()) {
 				JsonObject node = nod.getAsJsonObject();
-				if(node.has("timestamp")) {
+				//System.out.println("adding node " + node.get("id").getAsString()); 
+				if(node.get("type").getAsString().equals("graph")) {
 					//it's a graph.
 					nodes.add(new Graph(node,this));
-				} else if(node.has("url")) {
+				} else if(node.get("type").getAsString().equals("service")) {
 					//it's a service
 					nodes.add(new ServiceNode(node,this));
 				} else {
@@ -38,9 +40,30 @@ public class Graph extends Node {
 		outs = new HashSet<Node>();
 		if(json.has("ends")) {
 			for(JsonElement endId : json.get("ends").getAsJsonArray()) {
+				//System.out.println("adding end " + endId.getAsString()); 
 				outs.add(this.findNodeById(endId.getAsString()));
 			}
 		}
+	}
+	@Override
+	public JsonObject toJson() {
+		JsonObject js = super.toJson();
+		js.addProperty("type", "graph");
+		js.addProperty("timestamp", new SimpleDateFormat("yyy-mm-dd").format(timestamp));
+		js.addProperty("name", name);
+		if(!outs.isEmpty()) {
+			js.add("ends", new JsonArray());
+			for (Node n : outs) {
+				((JsonArray)js.get("ends")).add(n.getId());
+			}
+		}
+		if(!nodes.isEmpty()) {
+			js.add("nodes", new JsonArray());
+			for (Node n : nodes) {
+				((JsonArray)js.get("nodes")).add(n.toJson());
+			}
+		}
+		return js;
 	}
 	public void addNode(Node node) {
 		nodes.add(node);
@@ -65,6 +88,10 @@ public class Graph extends Node {
 	}
 	public Node findNodeById(String id) {
 		for (Node node : nodes) { //linear search. Really should be a hashmap eventually.
+			if(node.isGraph()) {
+				Node temp = ((Graph)node).findNodeById(id);
+				if (temp != null) return temp;
+			}
 			if(id.equals(node.getId())) return node;
 		}
 		return null;
@@ -79,6 +106,7 @@ public class Graph extends Node {
 	public JsonElement getResult() {
 		JsonArray res = new JsonArray();
 		for(Node out : outs) {
+			System.out.println(out);
 			res.add(out.getResult());
 		}
 		return res;
