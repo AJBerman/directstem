@@ -10,7 +10,6 @@ public class Edge {
 	}
 	public JsonObject toJson() {
 		JsonObject js = new JsonObject();
-		js.addProperty("type", "graph");
 		js.addProperty("name", inString);
 		return js;
 	}
